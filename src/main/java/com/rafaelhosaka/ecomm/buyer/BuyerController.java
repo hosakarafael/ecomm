@@ -9,8 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@RestController
-@RequestMapping(path = "api/buyer")
+@Controller
 public class BuyerController {
 
     private final BuyerService buyerService;
@@ -20,13 +19,19 @@ public class BuyerController {
         this.buyerService = buyerService;
     }
 
-    @GetMapping(path = "/list")
-    public String getBuyers(ModelMap model){
+    @GetMapping("/buyer/list")
+    public String getBuyers(Model model){
         model.addAttribute("buyers",buyerService.getAllBuyers());
         return "/buyer/buyerList";
     }
 
-    @PostMapping
+    @GetMapping("/buyer/add")
+    public String showAddBuyerForm(Model model){
+        model.addAttribute("buyer",new Buyer());
+        return "/buyer/addNewBuyer";
+    }
+
+    @PostMapping("/buyer/save")
     public void insertBuyer(@RequestBody Buyer buyer){
         buyerService.insertBuyer(buyer);
     }
