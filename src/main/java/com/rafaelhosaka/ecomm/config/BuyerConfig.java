@@ -15,10 +15,12 @@ public class BuyerConfig{
     @Bean
     CommandLineRunner commandLineRunner(BuyerDao buyerDao){
         return args -> {
-            Buyer ahri = new Buyer(1L,"Ahri", "Ionia", "1111111",
-                    LocalDate.of(2000, Month.JANUARY,1),"ahri@lol");
-            Buyer braum = new Buyer(2L,"Braum", "Freljorld", "22222222",
-                    LocalDate.of(2000, Month.JANUARY,1),"braum@lol");
+            Buyer ahri = new Buyer(1L,"Ahri","Vastaya" , "Ionia", "1111111",
+                    LocalDate.of(2000, Month.JANUARY,1),"ahri@lol",
+                    "????");
+            Buyer braum = new Buyer(2L,"Braum","Bro","Freljorld", "22222222",
+                    LocalDate.of(2000, Month.JANUARY,1),"braum@lol",
+                    "????");
 
             buyerDao.saveAll(List.of(ahri,braum));
         };

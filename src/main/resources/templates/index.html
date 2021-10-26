@@ -6,11 +6,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
+<div class="container-fluid text-center">
     <h1>This is Home Page</h1>
-    <form action="#" th:action="@{/list}" th:method="get" >
-        <button type="submit" class="btn">
-            List All Buyers
-        </button>
-    </form>
+    <a class="h2" th:href="@{/buyer/list}">List Buyers</a>
+</div>
 </body>
 </html>

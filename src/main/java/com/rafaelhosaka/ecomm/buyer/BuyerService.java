@@ -41,8 +41,8 @@ public class BuyerService{
 
         if(name != null &&
                 name.length() > 0 &&
-                !Objects.equals(buyer.getName(),name)){
-            buyer.setName(name);
+                !Objects.equals(buyer.getFirstName(),name)){
+            buyer.setFirstName(name);
         }
 
         if(email != null &&

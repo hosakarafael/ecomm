@@ -3,32 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Buyer List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
-    <h1>Buyers registred</h1>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Adress</th>
-            <th>Email</th>
-            <th>Date of Birth</th>
-            <th>Points</th>
-            <th>Delete</th>
-        </tr>
-        <tr th:each="buyer : ${buyers}">
-            <th th:text="${buyer.id}"/>
-            <th th:text="${buyer.name}"/>
-            <th th:text="${buyer.adress}"/>
-            <th th:text="${buyer.email}"/>
-            <th th:text="${buyer.dateBirth}"/>
-            <th th:text="${buyer.point}"/>
-            <th>
-                <form action="#" th:action="${buyer.id}" th:method="delete" >
-                    <input type="submit" value="delete" />
-                </form>
-            </th>
-        </tr>
-    </table>
+<div class="container-fluid text-center">
+    <div class
+    ><h2>Buyers registred</h2></div>
+    <div class="m-2">
+        <a class="h3" th:href="@{/buyer/add}">Add New Buyer</a>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead class="thread-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Adress</th>
+                <th>Email</th>
+                <th>Date of Birth</th>
+                <th>Points</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="buyer : ${buyers}">
+                <tr>
+                    <th th:text="${buyer.id}"/>
+                    <th th:text="${buyer.firstName}"/>
+                    <th th:text="${buyer.adress}"/>
+                    <th th:text="${buyer.email}"/>
+                    <th th:text="${buyer.dateBirth}"/>
+                    <th th:text="${buyer.point}"/>
+                    <th>
+                        <a class="h4" th:href="@{'/buyer/save' + ${buyer.id}}">Edit</a>
+                        <a class="h4">Delete</a>
+                    </th>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
