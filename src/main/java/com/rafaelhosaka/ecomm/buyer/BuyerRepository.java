@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface BuyerDao extends JpaRepository<Buyer, Long> {
+public interface BuyerRepository extends JpaRepository<Buyer, Long> {
 
     @Query("SELECT b FROM Buyer b WHERE b.email = ?1")
     Optional<Buyer> findBuyerByEmail(String email);

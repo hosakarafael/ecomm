@@ -1,41 +1,56 @@
 package com.rafaelhosaka.ecomm.buyer;
 
+import com.rafaelhosaka.ecomm.exception.BuyerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class BuyerService{
-    private final BuyerDao buyerDao;
+    private final BuyerRepository buyerRepository;
 
     @Autowired
-    public BuyerService(BuyerDao buyerDao) {
-        this.buyerDao = buyerDao;
+    public BuyerService(BuyerRepository buyerRepository) {
+        this.buyerRepository = buyerRepository;
+    }
+
+    public void saveAll(Collection<Buyer> buyers){
+        buyerRepository.saveAll(buyers);
+    }
+
+    public Buyer getBuyerById(Long id) throws BuyerNotFoundException {
+        Optional<Buyer> resultOptional = buyerRepository.findById(id);
+        if(resultOptional.isPresent()){
+            return resultOptional.get();
+        }
+        throw new BuyerNotFoundException("Could not find any buyer with ID "+id);
     }
 
     public List<Buyer> getAllBuyers(){
-        return buyerDao.findAll();
+        return buyerRepository.findAll();
     }
 
     public void deleteBuyer(Long buyerId) {
-        if(buyerDao.existsById(buyerId)){
-            buyerDao.deleteById(buyerId);
+        if(buyerRepository.existsById(buyerId)){
+            buyerRepository.deleteById(buyerId);
         }else{
             throw new IllegalStateException("Buyer with ID "+buyerId+" does not exist");
         }
 
     }
 
-    public void insertBuyer(Buyer buyer) {
-        buyerDao.save(buyer);
+    public void save(Buyer buyer) {
+        buyerRepository.save(buyer);
     }
 
     @Transactional
     public void updateBuyer(Long buyerId, String name, String email) {
-        Buyer buyer = buyerDao.findById(buyerId).orElseThrow(
+        Buyer buyer = buyerRepository.findById(buyerId).orElseThrow(
                 () -> new IllegalStateException("Buyer with ID "+buyerId+" does not exist")
         );
 

@@ -1,14 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Home Page</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-</head>
-<body>
-<div class="container-fluid text-center">
-    <h1>This is Home Page</h1>
-    <a class="h2" th:href="@{/buyer/list}">List Buyers</a>
-</div>
+<html lang="en" xmlns:th="http://thymeleaf.org" class="h-100">
+<head th:replace="fragments :: fragment_header"/>
+<body class="h-100">
+
+  <div th:replace="fragments :: fragment_sidebar"></div>
+
 </body>
 </html>

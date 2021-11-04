@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" class="h-100" >
+<head th:replace="fragments :: fragment_header"/>
+<body class="h-100">
+
+
+<div class="container-fluid text-center">
+    <div th:replace="fragments :: fragment_sidebar"></div>
+    <div>
+        <h2>[[${title}]]</h2>
+    </div>
+    <div th:if="${successAlert}" class="alert alert-success  text-center">
+        [[${successAlert}]]
+    </div>
+
+    <div class="m-2" >
+        <a class="h3" th:href="@{/buyer/showNewBuyerForm}"><img src="/icons/person-plus.svg" width="30">Add New Buyer</a>
+    </div>
+    <div class="rounded-circle">
+        <table class="table table-bordered ">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Date of Birth</th>
+                <th>Points</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="buyer : ${buyers}">
+                <tr>
+                    <th th:text="${buyer.id}">
+                    <th th:text="${buyer.firstName} + ' ' + ${buyer.lastName}">
+                    <th th:text="${buyer.address}">
+                    <th th:text="${buyer.email}">
+                    <th th:text="${buyer.dateBirth}">
+                    <th th:text="${buyer.point}">
+                    <th>
+                        <a class="h4" th:href="@{'/buyer/showEditBuyerForm/' + ${buyer.id}}" title="Edit Buyer">
+                            <img src="/icons/pencil.svg">
+                        </a>
+                        <a class="h4" th:href="@{'/buyer/delete/' + ${buyer.id}}" title="Delete Buyer">
+                            <img src="/icons/trash.svg" >
+                        </a>
+
+                    </th>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
