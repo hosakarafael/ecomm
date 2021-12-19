@@ -19,21 +19,25 @@ public class Product {
 
     private Integer stock;
 
+    private String mainImage;
+
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @OneToOne(mappedBy = "product")
+    @ManyToOne
+    @JoinColumn(name="shop_id")
     private Shop shop;
 
     public Product() {
     }
 
-    public Product(String name, String description, Float price, Integer stock, Category category) {
+    public Product(String name, String description, Float price, Integer stock, Category category, Shop shop) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
         this.category = category;
+        this.shop = shop;
     }
 
     public Long getId() {

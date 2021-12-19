@@ -22,6 +22,11 @@ public class BuyerController {
         this.buyerService = buyerService;
     }
 
+    /**
+     * Get all Buyers and show in a list
+     * @param model
+     * @return path to buyer/list.html
+     */
     @GetMapping("/list")
     public String getBuyers(Model model){
         model
@@ -31,6 +36,11 @@ public class BuyerController {
         return "/buyer/list";
     }
 
+    /**
+     * Prepare and show form to add new buyer
+     * @param model
+     * @return path to buyer/addForm.html
+     */
     @GetMapping("/showNewBuyerForm")
     public String showNewBuyerForm(Model model){
         model
@@ -39,6 +49,13 @@ public class BuyerController {
         return "/buyer/addForm";
     }
 
+    /**
+     * Prepare and show Form to Edit the Buyer information
+     * @param buyerId
+     * @param model
+     * @param redirectAttributes
+     * @return redirect to buyer/list.html
+     */
     @GetMapping("/showEditBuyerForm/{id}")
     public String showEditBuyerForm(@PathVariable("id") Long buyerId, Model model, RedirectAttributes redirectAttributes){
         try {
@@ -54,6 +71,12 @@ public class BuyerController {
         }
     }
 
+    /**
+     * Save new buyer
+     * @param buyer
+     * @param redirectAttributes
+     * @return redirect to buyer/list.html
+     */
     @PostMapping("/save")
     public String insertBuyer(Buyer buyer, RedirectAttributes redirectAttributes){
         buyerService.save(buyer);
@@ -61,16 +84,44 @@ public class BuyerController {
         return "redirect:/buyer/list";
     }
 
-    @PutMapping("/update")
-    public void updateBuyer(Buyer buyer){
-        buyerService.updateBuyer(buyer.getId(),buyer.getFirstName(),buyer.getEmail());
-    }
-
+    /**
+     * Delete buyer
+     * @param buyerId
+     * @param redirectAttributes
+     * @return redirect to buyer/list.html
+     */
     @GetMapping("/delete/{id}")
     public String deleteBuyer(@PathVariable("id") Long buyerId, RedirectAttributes redirectAttributes){
-        buyerService.deleteBuyer(buyerId);
-        redirectAttributes.addFlashAttribute("successAlert","The buyer has been deleted successfully");
+        try {
+            buyerService.deleteBuyer(buyerId);
+            redirectAttributes.addFlashAttribute("successAlert","The buyer has been deleted successfully");
+        } catch (BuyerNotFoundException e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorAlert",e.getMessage());
+        }
         return "redirect:/buyer/list";
+    }
+
+    /**
+     * Prepare and show data of buyer
+     * @param buyerId
+     * @param model
+     * @param redirectAttributes
+     * @return path to buyer/showInfo.html
+     */
+    @GetMapping("/showBuyerInfo/{id}")
+    public String showBuyerInfo(@PathVariable("id") Long buyerId, Model model, RedirectAttributes redirectAttributes){
+        try {
+            Buyer buyer = buyerService.getBuyerById(buyerId);
+            model
+                    .addAttribute("title","Buyer Information")
+                    .addAttribute("buyer",buyer);
+            return "/buyer/showInfo";
+        } catch (BuyerNotFoundException e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorAlert",e.getMessage());
+            return "redirect:/buyer/list";
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 package com.rafaelhosaka.ecomm.user;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -17,6 +19,7 @@ public abstract class User {
 
     private String phoneNumber;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateBirth;
 
     private String password;

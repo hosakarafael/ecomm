@@ -24,7 +24,7 @@ public class ShopService {
         shopRepository.save(shop);
     }
 
-    public List<Shop> getAllProducts() {
+    public List<Shop> getAllShops() {
         return shopRepository.findAll();
     }
 }

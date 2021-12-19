@@ -1,9 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" class="h-100">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head th:replace="fragments :: fragment_header"/>
-<body class="h-100">
+<body>
 
-  <div th:replace="fragments :: fragment_sidebar"></div>
+<div th:replace="fragments :: fragment_sidebar"></div>
+<div th:replace="fragments :: fragment_top_menu"></div>
 
+<!-- Page content -->
+<div class="main" >
+
+    <div class="text-center">
+        <h1>WELCOME TO HOMEPAGE</h1>
+        Authenticated username:
+        <div sec:authentication="name"></div>
+        <div sec:authorize="isAuthenticated()">
+            Authenticated user roles:
+            <div sec:authentication="principal.authorities"></div>
+        </div>
+        
+    </div>
+</div>
+<div th:replace="fragments :: fragment_script"></div>
 </body>
 </html>

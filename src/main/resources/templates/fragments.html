@@ -4,25 +4,102 @@
     <meta charset="UTF-8">
     <title>[[${title}]]</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/ecomm.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.4/css/all.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ecomm_css.css}"/>
 </head>
 <body>
+<div th:fragment="fragment_alert">
+    <div th:if="${successAlert}" class="alert alert-success alert-dismissible fade show m-2">
+        [[${successAlert}]]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${errorAlert}" class="alert alert-danger alert-dismissible fade show m-2">
+        [[${errorAlert}]]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
 
-<!--Sidebar -->
+<header th:fragment="fragment_top_menu" class="p-3 bg-dark text-white">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+            </form>
+
+        </div>
+    </div>
+</header>
+
 <div th:fragment="fragment_sidebar">
-    <a href="#">About</a>
-    <a th:href="@{/buyer/list}">
-        List Buyers (Admin only)
-    </a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
+    <div class="sidebar">
+        <div class="logo-details">
+            <a th:href="@{/}" style="text-decoration:none" class="logo-details">
+                <i class='fab fa-edge-legacy icon'></i>
+                <div class="logo_name">Ecomm</div>
+            </a>
+            <i class='fas fa-bars' id="btn" ></i>
+        </div>
+        <ul class="nav-list">
+            <li sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}">
+                    <i class='fas fa-user'></i>
+                    <span class="links_name">Log in</span>
+                </a>
+                <span class="tooltip">Log in</span>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a th:href="@{/logout}">
+                    <i class='fas fa-user'></i>
+                    <span class="links_name">Log out</span>
+                </a>
+                <span class="tooltip">Log out</span>
+            </li>
+            <li>
+                <i class='fas fa-search' ></i>
+                <input type="text" placeholder="Search...">
+                <span class="tooltip">Search</span>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a  th:href="@{/buyer/list}">
+                    <i class='fas fa-clipboard-list' ></i>
+                    <span class="links_name">List of Buyers</span>
+                </a>
+                <span class="tooltip">List of Buyers</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='fas fa-cart-alt' ></i>
+                    <span class="links_name">Order</span>
+                </a>
+                <span class="tooltip">Order</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='fas fa-heart' ></i>
+                    <span class="links_name">Saved</span>
+                </a>
+                <span class="tooltip">Saved</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='fas fa-cog' ></i>
+                    <span class="links_name">Setting</span>
+                </a>
+                <span class="tooltip">Setting</span>
+            </li>
+
+        </ul>
+    </div>
 </div>
 
-<!-- Page content -->
-<div class="main">
-    ...
-</div>
 
+<div th:fragment="fragment_script">
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}" ></script>
+    <script th:src="@{/js/ecomm_js.js}"></script>
+</div>
 </body>
 </html>

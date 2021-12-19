@@ -1,57 +1,77 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" class="h-100" >
+<html lang="en" xmlns:th="http://thymeleaf.org" >
 <head th:replace="fragments :: fragment_header"/>
-<body class="h-100">
+<body >
 
-
-<div class="container-fluid text-center">
-    <div th:replace="fragments :: fragment_sidebar"></div>
+<div th:replace="fragments :: fragment_sidebar"></div>
+<div class="main text-center">
+    <div th:replace="fragments :: fragment_alert"></div>
     <div>
-        <h2>[[${title}]]</h2>
-    </div>
-    <div th:if="${successAlert}" class="alert alert-success  text-center">
-        [[${successAlert}]]
+        <h1>[[${title}]]</h1>
     </div>
 
     <div class="m-2" >
-        <a class="h3" th:href="@{/buyer/showNewBuyerForm}"><img src="/icons/person-plus.svg" width="30">Add New Buyer</a>
+        <i class="fas fa-user-plus"></i><a class="h3" th:href="@{/buyer/showNewBuyerForm}">Add New Buyer</a>
     </div>
     <div class="rounded-circle">
         <table class="table table-bordered ">
             <thead class="table-dark">
             <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Email</th>
                 <th>Date of Birth</th>
-                <th>Points</th>
+                <th>Phone Number</th>
                 <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <th:block th:each="buyer : ${buyers}">
                 <tr>
-                    <th th:text="${buyer.id}">
                     <th th:text="${buyer.firstName} + ' ' + ${buyer.lastName}">
                     <th th:text="${buyer.address}">
                     <th th:text="${buyer.email}">
                     <th th:text="${buyer.dateBirth}">
-                    <th th:text="${buyer.point}">
+                    <th th:text="${buyer.phoneNumber}">
                     <th>
-                        <a class="h4" th:href="@{'/buyer/showEditBuyerForm/' + ${buyer.id}}" title="Edit Buyer">
-                            <img src="/icons/pencil.svg">
-                        </a>
-                        <a class="h4" th:href="@{'/buyer/delete/' + ${buyer.id}}" title="Delete Buyer">
-                            <img src="/icons/trash.svg" >
-                        </a>
+                        <div class="dropdown">
+                            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                Choose Action
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" th:href="@{'/buyer/showBuyerInfo/' + ${buyer.id}}">Show Information</a></li>
+                                <li><a class="dropdown-item" th:href="@{'/buyer/showEditBuyerForm/' + ${buyer.id}}">Edit</a></li>
+                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a></li>
+                            </ul>
+                        </div>
 
                     </th>
                 </tr>
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-dark">
+                                <h5 class="modal-title text-white" id="exampleModalLabel">Deleting confirmation</h5>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure that you want to delete <br> [[${buyer.firstName}]] [[${buyer.lastName}]]?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <form th:action="@{'/buyer/delete/' + ${buyer.id}}">
+                                    <button type="submit" class="btn btn-primary" >Confirm</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </th:block>
             </tbody>
         </table>
     </div>
+
 </div>
+<div th:replace="fragments :: fragment_script"></div>
 </body>
 </html>

@@ -35,11 +35,11 @@ public class BuyerService{
         return buyerRepository.findAll();
     }
 
-    public void deleteBuyer(Long buyerId) {
+    public void deleteBuyer(Long buyerId) throws BuyerNotFoundException {
         if(buyerRepository.existsById(buyerId)){
             buyerRepository.deleteById(buyerId);
         }else{
-            throw new IllegalStateException("Buyer with ID "+buyerId+" does not exist");
+            throw new BuyerNotFoundException("Buyer with ID "+buyerId+" does not exist");
         }
 
     }
@@ -49,9 +49,9 @@ public class BuyerService{
     }
 
     @Transactional
-    public void updateBuyer(Long buyerId, String name, String email) {
+    public void updateBuyer(Long buyerId, String name, String email) throws BuyerNotFoundException {
         Buyer buyer = buyerRepository.findById(buyerId).orElseThrow(
-                () -> new IllegalStateException("Buyer with ID "+buyerId+" does not exist")
+                () -> new BuyerNotFoundException("Buyer with ID "+buyerId+" does not exist")
         );
 
         if(name != null &&

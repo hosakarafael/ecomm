@@ -4,6 +4,8 @@ import com.rafaelhosaka.ecomm.buyer.Buyer;
 import com.rafaelhosaka.ecomm.product.Product;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "shop")
@@ -23,9 +25,8 @@ public class Shop {
     @OneToOne(mappedBy = "shop")
     Buyer buyer;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private Product product;
+    @OneToMany(mappedBy = "shop",cascade = CascadeType.ALL)
+    private Set<Product> products = new HashSet<>();
 
     public Shop() {
     }
@@ -86,12 +87,12 @@ public class Shop {
         this.buyer = buyer;
     }
 
-    public Product getProduct() {
-        return product;
+    public Set<Product> getProducts() {
+        return products;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     @Override
@@ -103,6 +104,7 @@ public class Shop {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", buyer=" + buyer +
+                ", products=" + products +
                 '}';
     }
 
