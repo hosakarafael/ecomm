@@ -28,7 +28,7 @@ public class BuyerService{
         if(resultOptional.isPresent()){
             return resultOptional.get();
         }
-        throw new BuyerNotFoundException("Could not find any buyer with ID "+id);
+        throw new BuyerNotFoundException("204","Could not find any buyer with ID "+id);
     }
 
     public List<Buyer> getAllBuyers(){
@@ -39,7 +39,7 @@ public class BuyerService{
         if(buyerRepository.existsById(buyerId)){
             buyerRepository.deleteById(buyerId);
         }else{
-            throw new BuyerNotFoundException("Buyer with ID "+buyerId+" does not exist");
+            throw new BuyerNotFoundException("204","Buyer with ID "+buyerId+" does not exist");
         }
 
     }
@@ -51,7 +51,7 @@ public class BuyerService{
     @Transactional
     public void updateBuyer(Long buyerId, String name, String email) throws BuyerNotFoundException {
         Buyer buyer = buyerRepository.findById(buyerId).orElseThrow(
-                () -> new BuyerNotFoundException("Buyer with ID "+buyerId+" does not exist")
+                () -> new BuyerNotFoundException("204","Buyer with ID "+buyerId+" does not exist")
         );
 
         if(name != null &&

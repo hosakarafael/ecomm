@@ -57,18 +57,12 @@ public class BuyerController {
      * @return redirect to buyer/list.html
      */
     @GetMapping("/showEditBuyerForm/{id}")
-    public String showEditBuyerForm(@PathVariable("id") Long buyerId, Model model, RedirectAttributes redirectAttributes){
-        try {
+    public String showEditBuyerForm(@PathVariable("id") Long buyerId, Model model, RedirectAttributes redirectAttributes) {
             Buyer buyer = buyerService.getBuyerById(buyerId);
             model
                     .addAttribute("title","Edit Buyer")
                     .addAttribute("buyer",buyer);
             return "/buyer/addForm";
-        } catch (BuyerNotFoundException e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("errorAlert",e.getMessage());
-            return "redirect:/buyer/list";
-        }
     }
 
     /**

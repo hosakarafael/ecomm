@@ -1,7 +1,43 @@
 package com.rafaelhosaka.ecomm.exception;
 
-public class BuyerNotFoundException extends Throwable{
-    public BuyerNotFoundException(String message) {
-        super(message);
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class BuyerNotFoundException extends RuntimeException{
+    private String errorCode;
+    private String errorMessage;
+
+    public BuyerNotFoundException(){
+
     }
+
+    public BuyerNotFoundException(String errorCode,String errorMessage){
+        super();
+        this.errorMessage = errorMessage;
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorCode(){
+        return errorCode;
+    }
+
+    public void setErrorCode(String errorCode){
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorMessage(){
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage){
+        this.errorMessage = errorMessage;
+    }
+
+    @Override
+    public String getMessage() {
+        return this.errorMessage;
+    }
+
+
 }
