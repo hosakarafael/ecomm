@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Home Page</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-</head>
+<head th:replace="fragments :: fragment_header"/>
 <body>
-<div class="container-fluid text-center">
-    <h1>This is Home Page</h1>
-    <a class="h2" th:href="@{/buyer/list}">List Buyers</a>
+
+<div th:replace="fragments :: fragment_sidebar"></div>
+<div th:replace="fragments :: fragment_top_menu"></div>
+
+<!-- Page content -->
+<div class="main" >
+
+    <div class="text-center">
+        <h1>WELCOME TO HOMEPAGE</h1>
+        Authenticated username:
+        <div sec:authentication="name"></div>
+        <div sec:authorize="isAuthenticated()">
+            Authenticated user roles:
+            <div sec:authentication="principal.authorities"></div>
+        </div>
+        
+    </div>
 </div>
+<div th:replace="fragments :: fragment_script"></div>
 </body>
 </html>

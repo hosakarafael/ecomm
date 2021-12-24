@@ -1,9 +1,9 @@
 package com.rafaelhosaka.ecomm.buyer;
 
+import com.rafaelhosaka.ecomm.shop.Shop;
 import com.rafaelhosaka.ecomm.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -11,11 +11,15 @@ import java.time.LocalDate;
 public class Buyer extends User {
     private Integer point;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+    private Shop shop;
+
     public Buyer() {
     }
 
-    public Buyer(Long id, String firstName, String lastName, String adress, String phonenumber, LocalDate dateBirth, String email, String password) {
-        super(id, firstName, lastName, adress, phonenumber, dateBirth, email, password);
+    public Buyer( String firstName, String lastName, String address, String phoneNumber, LocalDate dateBirth, String email, String password) {
+        super(firstName, lastName, address, phoneNumber, dateBirth, email, password);
         this.point = 0;
     }
 
@@ -25,6 +29,14 @@ public class Buyer extends User {
 
     public void setPoint(Integer point) {
         this.point = point;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
     @Override

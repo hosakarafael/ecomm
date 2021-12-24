@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: fragment_header"/>
+<body>
+
+<div th:replace="fragments :: fragment_sidebar"></div>
+
+<!-- Page content -->
+<div class="main">
+
+    <!-- TAB -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="buyer-tab" data-bs-toggle="tab" data-bs-target="#buyer" type="button"
+                    role="tab" aria-controls="buyer" aria-selected="true">Buyer
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="shop-tab" data-bs-toggle="tab" data-bs-target="#shop" type="button" role="tab"
+                    aria-controls="profile" aria-selected="false">Shop
+            </button>
+        </li>
+        <th:block th:if="${buyer.shop != null}">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="product-tab" data-bs-toggle="tab" data-bs-target="#product" type="button"
+                        role="tab" aria-controls="profile" aria-selected="false">List of Products
+                </button>
+            </li>
+        </th:block>
+    </ul>
+    <!-- CONTENT OF TAB -->
+    <div class="tab-content" id="myTabContent">
+        <!-- BUYER TAB CONTENT-->
+        <div class="tab-pane fade show active" id="buyer" role="tabpanel" aria-labelledby="buyer-tab">
+            <div class="container text-center">
+                <div class="row ">
+                    <div class="col border border-dark bg-dark text-white">
+                        Buyer Information
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col border border-dark">
+                        ID
+                    </div>
+                    <div class="col border border-dark">
+                        [[${buyer.id}]]
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col border border-dark">
+                        First Name
+                    </div>
+                    <div class="col border border-dark">
+                        [[${buyer.firstName}]]
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col border border-dark">
+                        Last Name
+                    </div>
+                    <div class="col border border-dark">
+                        [[${buyer.lastName}]]
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col border border-dark">
+                        E-mail
+                    </div>
+                    <div class="col border border-dark">
+                        [[${buyer.email}]]
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col border border-dark">
+                        Address
+                    </div>
+                    <div class="col border border-dark">
+                        [[${buyer.address}]]
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col border border-dark">
+                        Phone Number
+                    </div>
+                    <div class="col border border-dark">
+                        [[${buyer.phoneNumber}]]
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col border border-dark">
+                        Date of Birth
+                    </div>
+                    <div class="col border border-dark">
+                        [[${buyer.dateBirth}]]
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col border border-dark">
+                        Points
+                    </div>
+                    <div class="col border border-dark">
+                        [[${buyer.point}]]
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- SHOP TAB CONTENT -->
+        <div class="tab-pane fade" id="shop" role="tabpanel" aria-labelledby="shop-tab">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col border border-dark bg-dark text-white">
+                        Shop Information
+                    </div>
+                </div>
+                <th:block th:if="${buyer.shop == null}">
+                    <div class="row">
+                        <div class="col border border-dark">
+                            No shop opened
+                        </div>
+                    </div>
+
+                </th:block>
+                <th:block th:if="${buyer.shop != null}">
+                    <div class="row">
+                        <div class="col border border-dark">
+                            ID
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.shop.id}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            Name
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.shop.name}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            Description
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.shop.description}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            Phone Number
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.shop.phoneNumber}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            Address
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.shop.address}]]
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+        <!-- PRODUCT TAB CONTENT -->
+        <div class="tab-pane fade" id="product" role="tabpanel" aria-labelledby="product-tab">
+            <th:block th:if="${buyer.shop != null}">
+                <th:block th:if="${buyer.shop.products.empty}">
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col border border-dark">
+                                No product available
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+                <th:block th:if="${!buyer.shop.products.empty}">
+                    <table class="table table-bordered ">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>NAME</th>
+                            <th>MAIN IMAGE</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="product : ${buyer.shop.products}">
+                            <tr>
+                                <th th:text="${product.id}">
+                                <th th:text="${product.name}"></th>
+                                <th>
+                                    <img src="..." class="img-fluid" alt="...">
+                                </th>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </th:block>
+            </th:block>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments :: fragment_script"></div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.rafaelhosaka.ecomm;
+package com.rafaelhosaka.ecomm.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

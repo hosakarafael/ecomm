@@ -1,22 +1,25 @@
 package com.rafaelhosaka.ecomm.user;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @MappedSuperclass
 public abstract class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String firstName;
 
     private String lastName;
 
-    private String adress;
+    private String address;
 
-    private String phonenumber;
+    private String phoneNumber;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateBirth;
 
     private String password;
@@ -27,12 +30,12 @@ public abstract class User {
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String adress, String phonenumber, LocalDate dateBirth, String email ,String password) {
+    public User(String firstName, String lastName, String address, String phoneNumber, LocalDate dateBirth, String email , String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.adress = adress;
-        this.phonenumber = phonenumber;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
         this.dateBirth = dateBirth;
         this.email = email;
         this.password = password;
@@ -54,20 +57,20 @@ public abstract class User {
         this.firstName = firstName;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getPhonenumber() {
-        return phonenumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public LocalDate getDateBirth() {
@@ -123,8 +126,8 @@ public abstract class User {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName'" + lastName + '\'' +
-                ", adress='" + adress + '\'' +
-                ", phonenumber='" + phonenumber + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", dateBirth=" + dateBirth +
                 ", email='" + email + '\'' +
                 '}';
