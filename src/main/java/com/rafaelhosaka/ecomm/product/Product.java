@@ -1,8 +1,12 @@
 package com.rafaelhosaka.ecomm.product;
 
 import com.rafaelhosaka.ecomm.shop.Shop;
+import org.springframework.util.Base64Utils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.io.IOException;
+import java.util.Base64;
 
 @Entity
 @Table(name = "product")
@@ -19,7 +23,8 @@ public class Product {
 
     private Integer stock;
 
-    private String mainImage;
+    @Lob
+    private byte[] mainImage;
 
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -86,5 +91,25 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public byte[] getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(byte[] mainImage) {
+        this.mainImage = mainImage;
+    }
+
+    public String getMainImageAsBase64(){
+        return Base64Utils.encodeToString(this.mainImage);
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 }

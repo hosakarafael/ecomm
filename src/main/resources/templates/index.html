@@ -7,7 +7,7 @@
 <div th:replace="fragments :: fragment_top_menu"></div>
 
 <!-- Page content -->
-<div class="main" >
+<div class="main">
 
     <div class="text-center">
         <h1>WELCOME TO HOMEPAGE</h1>
@@ -17,7 +17,22 @@
             Authenticated user roles:
             <div sec:authentication="principal.authorities"></div>
         </div>
-        
+
+        <div class="container">
+
+            <th:block th:each="product : ${products}">
+                <div class="card" style="width: 18rem;display: inline-block;">
+                    <img class="card-img-top" th:src="'data:image/jpeg;base64,' + ${product.mainImageAsBase64}">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${product.name}"></h5>
+                        <p class="card-text" th:text="${product.description}"></p>
+                        <a href="#" class="btn btn-primary"></a>
+                    </div>
+                </div>
+            </th:block>
+
+            </th:block>
+        </div>
     </div>
 </div>
 <div th:replace="fragments :: fragment_script"></div>

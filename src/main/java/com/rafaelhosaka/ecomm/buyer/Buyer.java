@@ -9,18 +9,18 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "buyer")
 public class Buyer extends User {
-    private Integer point;
+    private Integer point = 0;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     private Shop shop;
 
     public Buyer() {
+
     }
 
     public Buyer( String firstName, String lastName, String address, String phoneNumber, LocalDate dateBirth, String email, String password) {
         super(firstName, lastName, address, phoneNumber, dateBirth, email, password);
-        this.point = 0;
     }
 
     public Integer getPoint() {

@@ -1,3 +1,4 @@
+/* main content of page */
 .main {
   margin-left: 100px;
   font-size: 28px;
@@ -12,6 +13,8 @@
   box-sizing: border-box;
   font-family: "Poppins" , sans-serif;
 }
+
+/* sidebar */
 .sidebar{
   position: fixed;
   left: 0;

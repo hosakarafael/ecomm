@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
         mav.addObject("exception", exception);
         mav.addObject("message", exception.getMessage());
         mav.addObject("url", request.getRequestURL());
-        registerLog(exception.toString());
+//        registerLog(exception.toString());
         return mav;
     }
 

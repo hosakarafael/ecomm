@@ -5,7 +5,7 @@
     <title>[[${title}]]</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.4/css/all.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/ecomm_css.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}"/>
 </head>
 <body>
 <div th:fragment="fragment_alert">
@@ -44,6 +44,7 @@
             <i class='fas fa-bars' id="btn" ></i>
         </div>
         <ul class="nav-list">
+<!-- Login and Logout -->
             <li sec:authorize="!isAuthenticated()">
                 <a th:href="@{/login}">
                     <i class='fas fa-user'></i>
@@ -58,38 +59,16 @@
                 </a>
                 <span class="tooltip">Log out</span>
             </li>
-            <li>
-                <i class='fas fa-search' ></i>
-                <input type="text" placeholder="Search...">
-                <span class="tooltip">Search</span>
-            </li>
+<!-- BUYER functions -->
+
+
+<!-- ADMIN functions -->
             <li sec:authorize="hasRole('ADMIN')">
                 <a  th:href="@{/buyer/list}">
                     <i class='fas fa-clipboard-list' ></i>
                     <span class="links_name">List of Buyers</span>
                 </a>
                 <span class="tooltip">List of Buyers</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='fas fa-cart-alt' ></i>
-                    <span class="links_name">Order</span>
-                </a>
-                <span class="tooltip">Order</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='fas fa-heart' ></i>
-                    <span class="links_name">Saved</span>
-                </a>
-                <span class="tooltip">Saved</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='fas fa-cog' ></i>
-                    <span class="links_name">Setting</span>
-                </a>
-                <span class="tooltip">Setting</span>
             </li>
 
         </ul>

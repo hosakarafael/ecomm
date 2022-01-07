@@ -32,77 +32,79 @@
     <div class="tab-content" id="myTabContent">
         <!-- BUYER TAB CONTENT-->
         <div class="tab-pane fade show active" id="buyer" role="tabpanel" aria-labelledby="buyer-tab">
-            <div class="container text-center">
-                <div class="row ">
-                    <div class="col border border-dark bg-dark text-white">
-                        Buyer Information
+
+                <div class="container text-center">
+                    <div class="row ">
+                        <div class="col border border-dark bg-dark text-white">
+                            Buyer Information
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col border border-dark">
+                            ID
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.id}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            First Name
+                        </div>
+                        <div class="col border border-dark">
+                                [[${buyer.firstName}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            Last Name
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.lastName}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            E-mail
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.email}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            Address
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.address}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            Phone Number
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.phoneNumber}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            Date of Birth
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.dateBirth}]]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            Points
+                        </div>
+                        <div class="col border border-dark">
+                            [[${buyer.point}]]
+                        </div>
                     </div>
                 </div>
-                <div class="row ">
-                    <div class="col border border-dark">
-                        ID
-                    </div>
-                    <div class="col border border-dark">
-                        [[${buyer.id}]]
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col border border-dark">
-                        First Name
-                    </div>
-                    <div class="col border border-dark">
-                        [[${buyer.firstName}]]
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col border border-dark">
-                        Last Name
-                    </div>
-                    <div class="col border border-dark">
-                        [[${buyer.lastName}]]
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col border border-dark">
-                        E-mail
-                    </div>
-                    <div class="col border border-dark">
-                        [[${buyer.email}]]
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col border border-dark">
-                        Address
-                    </div>
-                    <div class="col border border-dark">
-                        [[${buyer.address}]]
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col border border-dark">
-                        Phone Number
-                    </div>
-                    <div class="col border border-dark">
-                        [[${buyer.phoneNumber}]]
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col border border-dark">
-                        Date of Birth
-                    </div>
-                    <div class="col border border-dark">
-                        [[${buyer.dateBirth}]]
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col border border-dark">
-                        Points
-                    </div>
-                    <div class="col border border-dark">
-                        [[${buyer.point}]]
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
         <!-- SHOP TAB CONTENT -->
         <div class="tab-pane fade" id="shop" role="tabpanel" aria-labelledby="shop-tab">
@@ -116,6 +118,9 @@
                     <div class="row">
                         <div class="col border border-dark">
                             No shop opened
+                        </div>
+                        <div class="m-2">
+                            <a class="h3" th:href="@{'/shop/showNewShopForm/' + ${buyer.id}}">Add New Shop</a>
                         </div>
                     </div>
 
@@ -181,8 +186,9 @@
                         <thead class="table-dark">
                         <tr>
                             <th>ID</th>
-                            <th>NAME</th>
-                            <th>MAIN IMAGE</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Main Image</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -190,8 +196,9 @@
                             <tr>
                                 <th th:text="${product.id}">
                                 <th th:text="${product.name}"></th>
+                                <th th:text="${product.category}"></th>
                                 <th>
-                                    <img src="..." class="img-fluid" alt="...">
+                                    <img style="width: 18rem;" class="img-thumbnail" th:src="'data:image/png;base64,' + ${product.mainImageAsBase64}">
                                 </th>
                             </tr>
                         </th:block>

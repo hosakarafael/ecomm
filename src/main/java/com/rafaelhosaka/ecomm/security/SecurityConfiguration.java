@@ -11,12 +11,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
@@ -33,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
 
                 .authorizeRequests()
-                    .antMatchers("/","/index","/css/**","/js/**","/webjars/**","/h2-console/**").permitAll()
+                    .antMatchers("/","/index","/css/**","/js/**","/webjars/**","/product-images/**","/h2-console/**").permitAll()
                     .anyRequest().
                     authenticated()
                 .and()

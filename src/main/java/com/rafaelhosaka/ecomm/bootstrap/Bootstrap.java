@@ -12,10 +12,21 @@ import com.rafaelhosaka.ecomm.shop.Shop;
 import com.rafaelhosaka.ecomm.shop.ShopService;
 import com.rafaelhosaka.ecomm.user.UserAccount;
 import com.rafaelhosaka.ecomm.user.UserRole;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
@@ -56,6 +67,7 @@ public class Bootstrap {
         configureAccount(applicationUserService, braum.getEmail(), braum.getPassword(), true, Lists.newArrayList(UserRole.BUYER));
 
 
+
         buyerService.saveAll(List.of(ahri,braum));
 
     }
@@ -79,19 +91,30 @@ public class Bootstrap {
      * Generate Products for all shop registered in the database
      * @param shopService
      */
-    public void configureProducts(ShopService shopService){
+    public void configureProducts(ShopService shopService) throws IOException {
         List<Shop> shops = shopService.getAllShops();
         Set<Product> products = Sets.newHashSet();
 
         for (Shop shop: shops) {
             for (int i = 0 ; i < 3; i++) {
-                Product product = new Product("name"+i, "desciption"+i, 123f, 1, Category.ACCESSORY, shop);
+                Product product = new Product("product "+i+" of "+shop.getBuyer().getFirstName(), "description "+i, 123f, 1, Category.ACCESSORY, shop);
+                product.setMainImage(retrieveSampleImage("static/images/hd.jpeg").getBytes());
                 products.add(product);
             }
             shop.setProducts(products);
             shopService.save(shop);
             products = Sets.newHashSet();
         }
+    }
+
+    public MultipartFile retrieveSampleImage(String filePath) throws IOException {
+        Resource resource = new ClassPathResource(filePath);
+
+        FileInputStream input = new FileInputStream(resource.getFile());
+        MultipartFile multipartFile = new MockMultipartFile("fileItem",
+                resource.getFilename(), "image/png", IOUtils.toByteArray(input));
+
+        return multipartFile;
     }
 
     public void configureAccount(ApplicationUserService applicationUserService ,String email, String password,boolean isActive, List<UserRole> roles){
