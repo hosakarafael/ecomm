@@ -1,7 +1,7 @@
 package com.rafaelhosaka.ecomm.auth;
 
-import com.rafaelhosaka.ecomm.user.UserAccount;
-import com.rafaelhosaka.ecomm.user.UserAccountRepository;
+import com.rafaelhosaka.ecomm.account.UserAccount;
+import com.rafaelhosaka.ecomm.account.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;

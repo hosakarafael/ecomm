@@ -1,4 +1,4 @@
-package com.rafaelhosaka.ecomm.user;
+package com.rafaelhosaka.ecomm.account;
 
 import javax.persistence.*;
 

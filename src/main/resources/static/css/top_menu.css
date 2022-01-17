@@ -1,0 +1,10 @@
+form.index-search-form {
+  position: relative;
+  display: inline-flex;
+}
+
+.search-button{
+    font-family: sans-serif;
+    font-size: 20px;
+    border-radius: 0 10px 10px 0;
+}

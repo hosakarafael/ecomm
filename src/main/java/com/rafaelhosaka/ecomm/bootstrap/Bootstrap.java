@@ -10,10 +10,9 @@ import com.rafaelhosaka.ecomm.product.Category;
 import com.rafaelhosaka.ecomm.product.Product;
 import com.rafaelhosaka.ecomm.shop.Shop;
 import com.rafaelhosaka.ecomm.shop.ShopService;
-import com.rafaelhosaka.ecomm.user.UserAccount;
-import com.rafaelhosaka.ecomm.user.UserRole;
+import com.rafaelhosaka.ecomm.account.UserAccount;
+import com.rafaelhosaka.ecomm.account.UserRole;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -23,10 +22,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;

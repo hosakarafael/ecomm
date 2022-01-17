@@ -5,7 +5,7 @@
     <title>[[${title}]]</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.4/css/all.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ecomm.css}"/>
 </head>
 <body>
 <div th:fragment="fragment_alert">
@@ -21,13 +21,11 @@
 
 <header th:fragment="fragment_top_menu" class="p-3 bg-dark text-white">
     <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <div class="text-center">
+            <form class="index-search-form">
 
-            </ul>
-
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+                <input type="text" size="100" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+               <input type="submit">
             </form>
 
         </div>
