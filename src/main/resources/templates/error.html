@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: fragment_header"/>
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <th:block th:replace="fragments :: fragment_css"></th:block>
+</head>
 <body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
 <div class="container text-center">
 <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1><br>

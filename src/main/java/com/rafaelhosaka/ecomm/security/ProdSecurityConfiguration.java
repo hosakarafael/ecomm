@@ -4,30 +4,29 @@ import com.rafaelhosaka.ecomm.auth.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+@EnableGlobalMethodSecurity(securedEnabled = true)
+@Profile("prod")
+public class ProdSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
 
     @Autowired
-    public SecurityConfiguration(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
+    public ProdSecurityConfiguration(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
 
@@ -38,12 +37,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
         http
 
                 .authorizeRequests()
-                    .antMatchers("/","/index","/css/**","/js/**","/webjars/**","/product-images/**","/h2-console/**").permitAll()
-                    .anyRequest().
-                    authenticated()
+                    .antMatchers("/*","/index","/css/**","/js/**","/webjars/**","/product-images/**").permitAll()
+                    .anyRequest()
+                    .authenticated()
                 .and()
-                .csrf().disable()
-                .headers().frameOptions().sameOrigin().and()
                 .formLogin()
                     .failureUrl("/login-error")
                     .defaultSuccessUrl("/")

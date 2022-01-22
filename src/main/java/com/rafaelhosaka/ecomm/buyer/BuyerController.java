@@ -1,15 +1,17 @@
 package com.rafaelhosaka.ecomm.buyer;
 
+import com.google.common.collect.Lists;
+import com.rafaelhosaka.ecomm.account.UserAccount;
+import com.rafaelhosaka.ecomm.account.UserRole;
+import com.rafaelhosaka.ecomm.auth.ApplicationUser;
+import com.rafaelhosaka.ecomm.auth.ApplicationUserService;
 import com.rafaelhosaka.ecomm.exception.BuyerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/buyer")
@@ -17,36 +19,38 @@ public class BuyerController {
 
     private final BuyerService buyerService;
 
+    private final ApplicationUserService applicationUserService;
+
     @Autowired
-    public BuyerController(BuyerService buyerService) {
+    public BuyerController(BuyerService buyerService, ApplicationUserService applicationUserService) {
         this.buyerService = buyerService;
+        this.applicationUserService = applicationUserService;
     }
 
     /**
      * Get all Buyers and show in a list
      * @param model
-     * @return path to buyer/list.html
+     * @return path to buyer/buyers-list.html
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/list")
     public String getBuyers(Model model){
-        model
-                .addAttribute("title","Buyer List")
-                .addAttribute("buyers",buyerService.getAllBuyers());
+        model.addAttribute("buyers",buyerService.getAllBuyers());
 
-        return "/buyer/list";
+        return "/admin/buyer-list";
     }
 
     /**
      * Prepare and show form to add new buyer
      * @param model
-     * @return path to buyer/addForm.html
+     * @return path to buyer/add-shop-form.html
      */
     @GetMapping("/showNewBuyerForm")
     public String showNewBuyerForm(Model model){
         model
-                .addAttribute("title","Add New Buyer")
+                .addAttribute("title","Create account")
                 .addAttribute("buyer",new Buyer());
-        return "/buyer/addForm";
+        return "/add-buyer-form";
     }
 
     /**
@@ -54,36 +58,38 @@ public class BuyerController {
      * @param buyerId
      * @param model
      * @param redirectAttributes
-     * @return redirect to buyer/list.html
+     * @return redirect to buyer/buyers-list.html
      */
+    @Secured({"ROLE_ADMIN","ROLE_BUYER"})
     @GetMapping("/showEditBuyerForm/{id}")
     public String showEditBuyerForm(@PathVariable("id") Long buyerId, Model model, RedirectAttributes redirectAttributes) {
             Buyer buyer = buyerService.getBuyerById(buyerId);
             model
                     .addAttribute("title","Edit Buyer")
                     .addAttribute("buyer",buyer);
-            return "/buyer/addForm";
+            return "/add-buyer-form";
     }
 
-    /**
-     * Save new buyer
-     * @param buyer
-     * @param redirectAttributes
-     * @return redirect to buyer/list.html
-     */
     @PostMapping("/save")
     public String insertBuyer(Buyer buyer, RedirectAttributes redirectAttributes){
         buyerService.save(buyer);
-        redirectAttributes.addFlashAttribute("successAlert","The buyer has been saved successfully");
-        return "redirect:/buyer/list";
+        applicationUserService.createUser(new ApplicationUser(
+                new UserAccount(buyer.getEmail(),
+                        buyer.getPassword(),
+                        true,
+                        Lists.newArrayList(UserRole.BUYER)
+                )));
+        redirectAttributes.addFlashAttribute("successAlert","Account created successfully");
+        return "redirect:/login";
     }
 
     /**
      * Delete buyer
      * @param buyerId
      * @param redirectAttributes
-     * @return redirect to buyer/list.html
+     * @return redirect to buyer/buyers-list.html
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/delete/{id}")
     public String deleteBuyer(@PathVariable("id") Long buyerId, RedirectAttributes redirectAttributes){
         try {
@@ -93,7 +99,7 @@ public class BuyerController {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("errorAlert",e.getMessage());
         }
-        return "redirect:/buyer/list";
+        return "redirect:/buyer/buyers-list";
     }
 
     /**
@@ -101,15 +107,14 @@ public class BuyerController {
      * @param buyerId
      * @param model
      * @param redirectAttributes
-     * @return path to buyer/showInfo.html
+     * @return path to buyer/show-buyer-info.html
      */
+    @Secured({"ROLE_ADMIN","ROLE_BUYER"})
     @GetMapping("/showBuyerInfo/{id}")
     public String showBuyerInfo(@PathVariable("id") Long buyerId, Model model, RedirectAttributes redirectAttributes){
             Buyer buyer = buyerService.getBuyerById(buyerId);
-            model
-                    .addAttribute("title","Buyer Information")
-                    .addAttribute("buyer",buyer);
-            return "/buyer/showInfo";
+            model.addAttribute("buyer",buyer);
+            return "/buyer/show-buyer-info";
     }
 
 }

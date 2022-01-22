@@ -3,7 +3,7 @@ package com.rafaelhosaka.ecomm.account;
 import javax.persistence.*;
 
 public enum UserRole {
-    ADMIN, BUYER, GUEST;
+    ADMIN, BUYER;
 
 
     @Override

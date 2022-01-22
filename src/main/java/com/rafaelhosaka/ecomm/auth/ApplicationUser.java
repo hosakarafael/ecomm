@@ -45,21 +45,33 @@ public class ApplicationUser implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
+        if(userAccount == null){
+            return false;
+        }
         return userAccount.isActive();
     }
 
     @Override
     public boolean isAccountNonLocked() {
+        if(userAccount == null){
+            return false;
+        }
         return userAccount.isActive();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
+        if(userAccount == null){
+            return false;
+        }
         return userAccount.isActive();
     }
 
     @Override
     public boolean isEnabled() {
+        if(userAccount == null){
+            return false;
+        }
         return userAccount.isActive();
     }
 

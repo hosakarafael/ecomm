@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
-<head th:fragment="fragment_header">
+<head>
     <meta charset="UTF-8">
-    <title>[[${title}]]</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.4/css/all.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/ecomm.css}"/>
+    <title></title>
+    <th:block th:fragment="fragment_css">
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.4/css/all.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/ecomm.css}"/>
+    </th:block>
 </head>
 <body>
-<div th:fragment="fragment_alert">
-    <div th:if="${successAlert}" class="alert alert-success alert-dismissible fade show m-2">
+
+<header th:fragment="fragment_top_menu" class="p-3 bg-dark text-white">
+    <div th:if="${successAlert}" class="alert_overlay alert alert-success alert-dismissible fade show m-2">
         [[${successAlert}]]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <div th:if="${errorAlert}" class="alert alert-danger alert-dismissible fade show m-2">
+    <div th:if="${errorAlert}" class="alert_overlay alert alert-danger alert-dismissible fade show m-2">
         [[${errorAlert}]]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-</div>
 
-<header th:fragment="fragment_top_menu" class="p-3 bg-dark text-white">
     <div class="container">
         <div class="text-center">
+            <a th:href="@{/}" style="text-decoration:none" class="main-logo">
+                <i class='fab fa-edge-legacy icon'></i>
+                <div class="logo_name">Ecomm</div>
+            </a>
             <form class="index-search-form">
 
                 <input type="text" size="100" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
                <input type="submit">
-            </form>
 
+            </form>
+            <i class="cart fas fa-shopping-cart"><span class="cart-products-number">0&nbsp;</span></i>
         </div>
     </div>
 </header>
@@ -45,20 +51,27 @@
 <!-- Login and Logout -->
             <li sec:authorize="!isAuthenticated()">
                 <a th:href="@{/login}">
-                    <i class='fas fa-user'></i>
+                    <i class="fas fa-sign-in-alt"></i>
                     <span class="links_name">Log in</span>
                 </a>
                 <span class="tooltip">Log in</span>
             </li>
             <li sec:authorize="isAuthenticated()">
-                <a th:href="@{/logout}">
-                    <i class='fas fa-user'></i>
+                <a data-bs-toggle="modal" data-bs-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt"></i>
                     <span class="links_name">Log out</span>
                 </a>
                 <span class="tooltip">Log out</span>
             </li>
-<!-- BUYER functions -->
 
+<!-- BUYER functions -->
+            <li sec:authorize="hasRole('BUYER')">
+                <a  th:href="@{/buyer/home}">
+                    <i class="fas fa-house-user"></i>
+                    <span class="links_name">My Homepage</span>
+                </a>
+                <span class="tooltip">My Homepage</span>
+            </li>
 
 <!-- ADMIN functions -->
             <li sec:authorize="hasRole('ADMIN')">
@@ -71,7 +84,27 @@
 
         </ul>
     </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-white">Logout confirmation</h5>
+                </div>
+                <div class="modal-body">
+                    Are you sure that you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a th:href="@{/logout}">
+                        <span class="btn btn-primary">Log out</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 
 
 <div th:fragment="fragment_script">

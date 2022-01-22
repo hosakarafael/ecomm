@@ -8,3 +8,38 @@ form.index-search-form {
     font-size: 20px;
     border-radius: 0 10px 10px 0;
 }
+
+.main-logo{
+      display: flex;
+      align-items: center;
+      position: absolute;
+      left : 100px;
+
+}
+
+.main-logo .logo_name{
+    color: #fff;
+    font-size: 20px;
+      font-weight: 600;
+}
+
+.main-logo .icon{
+    color: #fff;
+    font-size: 20px;
+      font-weight: 600;
+}
+
+.cart{
+    font-size: 60px;
+    position : absolute;
+    right: 20px;
+    top : 7px;
+}
+
+.cart-products-number{
+    position : absolute;
+    color : black;
+    right: 11px;
+    bottom : 21px;
+    font-size: 32px;
+}

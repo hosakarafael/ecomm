@@ -1,2 +1,15 @@
 @import "sidebar.css";
 @import "top_menu.css";
+
+.alert_overlay{
+    position: fixed;
+      width: 30%;
+      height: 13%;
+      top: 10px;
+      left: 1170px;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      opacity: 90%;
+      font-weight: bold;
+}
