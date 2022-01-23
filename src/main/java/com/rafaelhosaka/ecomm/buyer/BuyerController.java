@@ -8,6 +8,7 @@ import com.rafaelhosaka.ecomm.auth.ApplicationUserService;
 import com.rafaelhosaka.ecomm.exception.BuyerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -115,6 +116,30 @@ public class BuyerController {
             Buyer buyer = buyerService.getBuyerById(buyerId);
             model.addAttribute("buyer",buyer);
             return "/buyer/show-buyer-info";
+    }
+
+    @Secured("ROLE_BUYER")
+    @GetMapping("/home")
+    public String showBuyerHomePage(Model model){
+        ApplicationUser applicationUser = (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Buyer loggedBuyer = buyerService.getBuyerByEmail(applicationUser.getUsername());
+        model.addAttribute("buyer",loggedBuyer);
+        return "/buyer/buyer-home-page";
+    }
+
+    @Secured("ROLE_BUYER")
+    @PostMapping("/update/{id}")
+    public String updateBuyer(@PathVariable("id")Long id, @ModelAttribute("buyer") Buyer buyer, Model model){
+        try {
+            buyerService.updateBuyer(id, buyer);
+            model.addAttribute("successAlert","Edited information saved successfully!");
+        }catch (IllegalStateException e) {
+            model.addAttribute("errorAlert", e.getMessage());
+        }
+        ApplicationUser applicationUser = (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Buyer loggedBuyer = buyerService.getBuyerByEmail(applicationUser.getUsername());
+        model.addAttribute("buyer",loggedBuyer);
+        return "/buyer/buyer-home-page";
     }
 
 }

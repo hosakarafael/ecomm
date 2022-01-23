@@ -2,12 +2,13 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Buyer Information</title>
+    <title>Your home page</title>
     <th:block th:replace="fragments :: fragment_css"></th:block>
 </head>
 <body>
 
 <div th:replace="fragments :: fragment_sidebar"></div>
+<div th:replace="fragments :: fragment_top_menu"></div>
 
 <!-- Page content -->
 <div class="main">
@@ -32,23 +33,18 @@
             </li>
         </th:block>
     </ul>
+
+
+
 <!-- CONTENT OF TAB -->
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content m-2" id="myTabContent">
 <!-- BUYER TAB CONTENT-->
         <div class="tab-pane fade show active" id="buyer" role="tabpanel" aria-labelledby="buyer-tab">
-
+            <form th:action="@{'/buyer/update/' + ${buyer.id}}" th:object="${buyer}" method="post">
                 <div class="container text-center">
                     <div class="row ">
                         <div class="col border border-dark bg-dark text-white">
                             Buyer Information
-                        </div>
-                    </div>
-                    <div class="row ">
-                        <div class="col border border-dark">
-                            ID
-                        </div>
-                        <div class="col border border-dark">
-                            [[${buyer.id}]]
                         </div>
                     </div>
                     <div class="row">
@@ -56,7 +52,7 @@
                             First Name
                         </div>
                         <div class="col border border-dark">
-                                [[${buyer.firstName}]]
+                            <input id="first_name" class="text-center w-100" disabled type="text" th:field="*{firstName}">
                         </div>
                     </div>
                     <div class="row">
@@ -64,7 +60,7 @@
                             Last Name
                         </div>
                         <div class="col border border-dark">
-                            [[${buyer.lastName}]]
+                            <input id="last_name" class="text-center w-100" disabled type="text" th:field="*{lastName}">
                         </div>
                     </div>
                     <div class="row">
@@ -72,7 +68,7 @@
                             E-mail
                         </div>
                         <div class="col border border-dark">
-                            [[${buyer.email}]]
+                            <input id="email" class="text-center w-100" disabled type="email" th:field="*{email}">
                         </div>
                     </div>
                     <div class="row">
@@ -80,7 +76,7 @@
                             Address
                         </div>
                         <div class="col border border-dark">
-                            [[${buyer.address}]]
+                            <input id="address" class="text-center w-100" disabled type="text" th:field="*{address}">
                         </div>
                     </div>
                     <div class="row">
@@ -88,7 +84,7 @@
                             Phone Number
                         </div>
                         <div class="col border border-dark">
-                            [[${buyer.phoneNumber}]]
+                            <input id="phone_number" class="text-center w-100" disabled type="tel" th:field="*{phoneNumber}">
                         </div>
                     </div>
                     <div class="row">
@@ -96,7 +92,7 @@
                             Date of Birth
                         </div>
                         <div class="col border border-dark">
-                            [[${buyer.dateBirth}]]
+                            <input id="date_birth" class="text-center w-100" disabled type="date" th:field="*{dateBirth}">
                         </div>
                     </div>
                     <div class="row">
@@ -108,9 +104,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="text-center">
+                     <button id="save_btn" type="submit" disabled class="btn btn-primary">Save changes</button>
+                     <button id="edit_btn" type="button" class="btn btn-primary">Enable edit</button>
+                </div>
             </form>
         </div>
-        <!-- SHOP TAB CONTENT -->
+
+
+
+
+<!-- SHOP TAB CONTENT -->
         <div class="tab-pane fade" id="shop" role="tabpanel" aria-labelledby="shop-tab">
             <div class="container text-center">
                 <div class="row">
@@ -130,14 +134,6 @@
 
                 </th:block>
                 <th:block th:if="${buyer.shop != null}">
-                    <div class="row">
-                        <div class="col border border-dark">
-                            ID
-                        </div>
-                        <div class="col border border-dark">
-                            [[${buyer.shop.id}]]
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col border border-dark">
                             Name
@@ -189,7 +185,6 @@
                     <table class="table table-bordered ">
                         <thead class="table-dark">
                         <tr>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Category</th>
                             <th>Main Image</th>
@@ -198,7 +193,6 @@
                         <tbody>
                         <th:block th:each="product : ${buyer.shop.products}">
                             <tr>
-                                <th th:text="${product.id}">
                                 <th th:text="${product.name}"></th>
                                 <th th:text="${product.category}"></th>
                                 <th>
@@ -214,5 +208,6 @@
     </div>
 </div>
 <div th:replace="fragments :: fragment_script"></div>
+<script th:src="@{/js/buyer-home-page.js}"></script>
 </body>
 </html>
