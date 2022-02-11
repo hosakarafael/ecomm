@@ -28,24 +28,14 @@ public class BuyerController {
         this.applicationUserService = applicationUserService;
     }
 
-    /**
-     * Get all Buyers and show in a list
-     * @param model
-     * @return path to buyer/buyers-list.html
-     */
     @Secured("ROLE_ADMIN")
     @GetMapping("/list")
     public String getBuyers(Model model){
         model.addAttribute("buyers",buyerService.getAllBuyers());
 
-        return "/admin/buyer-list";
+        return "/admin/buyers-list";
     }
 
-    /**
-     * Prepare and show form to add new buyer
-     * @param model
-     * @return path to buyer/add-shop-form.html
-     */
     @GetMapping("/showNewBuyerForm")
     public String showNewBuyerForm(Model model){
         model
@@ -54,13 +44,6 @@ public class BuyerController {
         return "/add-buyer-form";
     }
 
-    /**
-     * Prepare and show Form to Edit the Buyer information
-     * @param buyerId
-     * @param model
-     * @param redirectAttributes
-     * @return redirect to buyer/buyers-list.html
-     */
     @Secured({"ROLE_ADMIN","ROLE_BUYER"})
     @GetMapping("/showEditBuyerForm/{id}")
     public String showEditBuyerForm(@PathVariable("id") Long buyerId, Model model, RedirectAttributes redirectAttributes) {
@@ -84,12 +67,6 @@ public class BuyerController {
         return "redirect:/login";
     }
 
-    /**
-     * Delete buyer
-     * @param buyerId
-     * @param redirectAttributes
-     * @return redirect to buyer/buyers-list.html
-     */
     @Secured("ROLE_ADMIN")
     @GetMapping("/delete/{id}")
     public String deleteBuyer(@PathVariable("id") Long buyerId, RedirectAttributes redirectAttributes){
@@ -103,16 +80,9 @@ public class BuyerController {
         return "redirect:/buyer/buyers-list";
     }
 
-    /**
-     * Prepare and show data of buyer
-     * @param buyerId
-     * @param model
-     * @param redirectAttributes
-     * @return path to buyer/show-buyer-info.html
-     */
     @Secured({"ROLE_ADMIN","ROLE_BUYER"})
     @GetMapping("/showBuyerInfo/{id}")
-    public String showBuyerInfo(@PathVariable("id") Long buyerId, Model model, RedirectAttributes redirectAttributes){
+    public String showBuyerInfo(@PathVariable("id") Long buyerId, Model model){
             Buyer buyer = buyerService.getBuyerById(buyerId);
             model.addAttribute("buyer",buyer);
             return "/buyer/show-buyer-info";
@@ -129,7 +99,7 @@ public class BuyerController {
 
     @Secured("ROLE_BUYER")
     @PostMapping("/update/{id}")
-    public String updateBuyer(@PathVariable("id")Long id, @ModelAttribute("buyer") Buyer buyer, Model model){
+    public String updateBuyer(@PathVariable("id")Long id, Buyer buyer, Model model){
         try {
             buyerService.updateBuyer(id, buyer);
             model.addAttribute("successAlert","Edited information saved successfully!");
@@ -141,5 +111,6 @@ public class BuyerController {
         model.addAttribute("buyer",loggedBuyer);
         return "/buyer/buyer-home-page";
     }
+
 
 }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<meta charset="UTF-8">
+<title>[[${product.name}]]</title>
+<th:block th:replace="fragments :: fragment_css"></th:block>
+<link rel="stylesheet" type="text/css" th:href="@{/css/shopping-cart-info.css}"/>
+
+<body>
+
+<div th:replace="fragments :: fragment_sidebar"></div>
+<div th:replace="fragments :: fragment_top_menu"></div>
+
+<!-- Page content -->
+<div class="main m-2">
+
+
+
+</div>
+<div th:replace="fragments :: fragment_script"></div>
+</body>
+</html>

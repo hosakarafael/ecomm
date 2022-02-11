@@ -9,9 +9,9 @@
 
 <div th:replace="fragments :: fragment_sidebar"></div>
 <div class="main text-center">
-    <h2>[[${title}]]</h2>
+    <h2>Add New Shop</h2>
 
-    <form th:action="@{/shop/save}" method="post" th:object="${buyer}" style="max-width: 650px; margin: 0 auto;">
+    <form th:action="@{/shop/save}" method="post" th:object="${sessionBuyer}" style="max-width: 650px; margin: 0 auto;">
 
         <div class="border border-secondary rounded p-3">
 

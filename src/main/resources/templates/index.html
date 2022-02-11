@@ -12,16 +12,15 @@
 <div class="main m-2">
 
     <div class="text-center">
-
-        <div class="container">
+        <div class="container-fluid">
 
             <th:block th:each="product : ${products}">
                 <div class="card" style="width: 18rem;display: inline-block;">
-                    <img class="card-img-top" th:src="'data:image/jpeg;base64,' + ${product.mainImageAsBase64}">
+                    <img  class="card-img-top" th:src="'data:image/jpeg;base64,' + ${product.mainImageAsBase64}">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${product.name}"></h5>
                         <p class="card-text" th:text="${product.description}"></p>
-                        <a href="#" class="btn btn-primary"></a>
+                        <a th:href="@{'/addCart/' + ${product.id}}" class="btn btn-primary">Add to Cart</a>
                     </div>
                 </div>
             </th:block>

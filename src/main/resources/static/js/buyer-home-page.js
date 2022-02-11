@@ -1,41 +1,72 @@
-let editBtn = document.getElementById("edit_btn");
-let saveBtn = document.getElementById("save_btn");
-editBtn.addEventListener("click", () => {
-    showSaveBtnHideEditBtn()
+let editBuyerBtn = document.getElementById("edit_buyer_btn");
+editBuyerBtn.addEventListener("click", () => {
+    enableDisableEditBuyer()
 });
 
-function showSaveBtnHideEditBtn(){
-    if(edit_btn.innerText  == "Enable edit"){
-        save_btn.removeAttribute("disabled");
-        edit_btn.innerText = "Cancel";
-        edit_btn.classList.remove("btn-primary");
-        edit_btn.classList.add("btn-secondary");
-        enableEditableFields();
+let editShopBtn = document.getElementById("edit_shop_btn");
+editShopBtn.addEventListener("click", () => {
+    enableDisableEditShop()
+});
+
+function enableDisableEditBuyer(){
+    const fields = ["buyer_first_name", "buyer_last_name", "buyer_address", "buyer_phone_number", "buyer_date_birth", "buyer_email"];
+    if(editBuyerBtn.innerText  == "Enable edit"){
+        enableSaveBtn(document.getElementById("save_buyer_btn"));
+        changeBtnEditToCancel(editBuyerBtn);
+        enableFields(fields);
     }else{
-        save_btn.setAttribute("disabled", "true");
-        edit_btn.innerText = "Enable edit";
-        edit_btn.classList.add("btn-primary");
-        edit_btn.classList.remove("btn-secondary");
-        disableEditableFields();
+        disableSaveBtn(document.getElementById("save_buyer_btn"));
+        changeBtnCancelToEdit(editBuyerBtn);
+        disableFields(fields);
     }
-
 }
 
-function enableEditableFields(){
-    document.getElementById("first_name").removeAttribute("disabled");
-    document.getElementById("last_name").removeAttribute("disabled");
-    document.getElementById("address").removeAttribute("disabled");
-    document.getElementById("phone_number").removeAttribute("disabled");
-    document.getElementById("date_birth").removeAttribute("disabled");
-    document.getElementById("email").removeAttribute("disabled");
-
+function enableDisableEditShop(){
+    const fields = ["shop_name","shop_description","shop_address","shop_phone_number"];
+    if(editShopBtn.innerText  == "Enable edit"){
+        enableSaveBtn(document.getElementById("save_shop_btn"));
+        changeBtnEditToCancel(editShopBtn);
+        enableFields(fields);
+    }else{
+        disableSaveBtn(document.getElementById("save_shop_btn"));
+        changeBtnCancelToEdit(editShopBtn);
+        disableFields(fields);
+    }
 }
 
-function disableEditableFields(){
-    document.getElementById("first_name").setAttribute("disabled", "true");
-    document.getElementById("last_name").setAttribute("disabled", "true");
-    document.getElementById("address").setAttribute("disabled", "true");
-    document.getElementById("phone_number").setAttribute("disabled", "true");
-    document.getElementById("date_birth").setAttribute("disabled", "true");
-    document.getElementById("email").setAttribute("disabled", "true");
+function enableSaveBtn(saveBtn){
+    saveBtn.removeAttribute("disabled");
+}
+
+function disableSaveBtn(saveBtn){
+    saveBtn.setAttribute("disabled", "true");
+}
+
+function changeBtnEditToCancel(editBtn){
+    editBtn.innerText = "Cancel";
+    editBtn.classList.remove("btn-primary");
+    editBtn.classList.add("btn-secondary");
+}
+
+function changeBtnCancelToEdit(editBtn){
+    editBtn.innerText = "Enable edit";
+    editBtn.classList.add("btn-primary");
+    editBtn.classList.remove("btn-secondary");
+}
+
+function enableFields(fields){
+    for (const fieldName of fields) {
+      let field = document.getElementById(fieldName);
+      field.removeAttribute("disabled");
+      field.classList.add("highlight");
+    }
+}
+
+function disableFields(fields){
+   for (const fieldName of fields) {
+        let field = document.getElementById(fieldName);
+         field.setAttribute("disabled", "true");
+         field.classList.remove("highlight");
+
+    }
 }

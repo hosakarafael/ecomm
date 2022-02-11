@@ -27,13 +27,27 @@
                 <i class='fab fa-edge-legacy icon'></i>
                 <div class="logo_name">Ecomm</div>
             </a>
-            <form class="index-search-form">
-
-                <input type="text" size="100" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-               <input type="submit">
+            <form class="index-search-form" th:action="@{/search}" th:method="get">
+                <select name="categoryId"   class="selector form-select" aria-label="select example">
+                    <option th:value="0">All</option>
+                    <th:block th:each="category : ${sessionCategories}">
+                        <option th:if="${selectedCategoryId == category.id}" th:value="${category.id}" th:text="${category.name}" selected></option>
+                        <option th:if="${selectedCategoryId != category.id}" th:value="${category.id}" th:text="${category.name}"></option>
+                    </th:block>
+                </select>
+                <input name="searchText" type="text" size="100" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search fa-lg "></i>
+                </button>
 
             </form>
-            <i class="cart fas fa-shopping-cart"><span class="cart-products-number">0&nbsp;</span></i>
+            <a class="cart" th:href="@{/cartInfo}">
+                <i class="cart-icon fas fa-shopping-cart">
+                    <span class="cart-products-number">
+                        <th:block th:if="${session.sessionCart != null}">[[${session.sessionCart.productsQuantities}]]&nbsp;</th:block>
+                    </span>
+                </i>
+            </a>
         </div>
     </div>
 </header>

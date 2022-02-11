@@ -1,8 +1,12 @@
 /* main content of page */
 .main {
-  margin-left: 100px;
+
   font-size: 28px;
   padding: 0px 10px;
+  position : absolute;
+  left: 90px;
+  width: 94%;
+  height: 100%;
 }
 
 /* Google Font Link */

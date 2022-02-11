@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<meta charset="UTF-8">
+<title>Shopping Cart</title>
+<th:block th:replace="fragments :: fragment_css"></th:block>
+<link rel="stylesheet" type="text/css" th:href="@{/css/shopping-cart-info.css}"/>
+
+<body>
+
+<div th:replace="fragments :: fragment_sidebar"></div>
+<div th:replace="fragments :: fragment_top_menu"></div>
+
+<!-- Page content -->
+<div class="main m-2">
+
+    <th:block th:if="${!session.sessionCart.products.empty}">
+        <h1>Shopping Cart</h1>
+        <h5 class="solid price-header">Price</h5>
+    </th:block>
+    <th:block th:if="${session.sessionCart.products.empty}">
+        <h1>Your Cart is empty!</h1>
+    </th:block>
+
+    </th:block>
+
+    <div class="container-fluid">
+        <th:block th:if="${!session.sessionCart.products.empty}" th:each="product : ${session.sessionCart.products}">
+            <div class="row">
+                <div class="col-2">
+                    <img  width="250" height="250"  th:src="'data:image/jpeg;base64,' + ${product.mainImageAsBase64}">
+                </div>
+                <div class="col-9">
+                    <div class="row">
+                        <p class="name">[[${product.name}]]</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto me-auto">
+                            <select id="quantity" class="form-select">
+                                <option th:each="i : ${#numbers.sequence( 1, 10)}" th:value="${i}" th:text="'Qty:' + ${i}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <label class="price" th:text="'$'+ ${product.price}"></label>
+                </div>
+
+                <hr class="solid">
+            </div>
+        </th:block>
+    </div>
+
+</div>
+<div th:replace="fragments :: fragment_script"></div>
+</body>
+</html>

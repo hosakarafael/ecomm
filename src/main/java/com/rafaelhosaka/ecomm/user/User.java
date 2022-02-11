@@ -1,5 +1,6 @@
 package com.rafaelhosaka.ecomm.user;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

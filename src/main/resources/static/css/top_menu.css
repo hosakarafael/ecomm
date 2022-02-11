@@ -29,7 +29,11 @@ form.index-search-form {
       font-weight: 600;
 }
 
-.cart{
+a, a:hover, a:focus, a:active .cart{
+    color: inherit;
+}
+
+.cart-icon{
     font-size: 60px;
     position : absolute;
     right: 20px;
@@ -42,4 +46,9 @@ form.index-search-form {
     right: 11px;
     bottom : 21px;
     font-size: 32px;
+}
+
+.selector{
+    width:auto;
+    border-radius: 15px 0px 0px 15px;
 }

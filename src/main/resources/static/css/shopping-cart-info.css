@@ -1,0 +1,24 @@
+h5.solid {
+  border-bottom: 3px solid #bbb;
+}
+
+hr.solid {
+  border-bottom: 3px solid #bbb;
+  position: relative;
+  top: 10px;
+}
+
+.price-header{
+    text-align: right;
+    vertical-align : top;
+}
+
+.name{
+    font-size: 0.8em;
+}
+
+.price{
+    position : absolute;
+    right:10px;
+    font-weight: bold;
+}

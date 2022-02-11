@@ -1,19 +1,16 @@
 package com.rafaelhosaka.ecomm.product;
 
+import com.rafaelhosaka.ecomm.category.Category;
 import com.rafaelhosaka.ecomm.shop.Shop;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.util.Base64Utils;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.io.IOException;
-import java.util.Base64;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @EqualsAndHashCode(exclude = "shop")
 @Entity
@@ -34,14 +31,16 @@ public class Product {
     @Lob
     private byte[] mainImage;
 
-    @Enumerated(EnumType.STRING)
+    @OneToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name="shop_id")
+    @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    public Product() {
+    public String getMainImageAsBase64() {
+        return Base64Utils.encodeToString(this.mainImage);
     }
 
     public Product(String name, String description, Float price, Integer stock, Category category, Shop shop) {
@@ -49,13 +48,8 @@ public class Product {
         this.description = description;
         this.price = price;
         this.stock = stock;
+        this.mainImage = mainImage;
         this.category = category;
         this.shop = shop;
     }
-
-    public String getMainImageAsBase64(){
-        return Base64Utils.encodeToString(this.mainImage);
-    }
-
-
 }
