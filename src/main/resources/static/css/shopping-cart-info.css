@@ -22,3 +22,18 @@ hr.solid {
     right:10px;
     font-weight: bold;
 }
+
+.separator{
+    font-weight: lighter;
+    margin-left: 10px;
+}
+
+.delete-link{
+    display: inline-flex;
+}
+
+.total-price{
+    display: inline-flex;
+    position: absolute;
+    right:10px;
+}

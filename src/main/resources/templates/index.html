@@ -3,6 +3,7 @@
 <meta charset="UTF-8">
 <title>Ecomm</title>
 <th:block th:replace="fragments :: fragment_css"></th:block>
+<link rel="stylesheet" type="text/css" th:href="@{/css/index.css}"/>
 <body>
 
 <div th:replace="fragments :: fragment_sidebar"></div>
@@ -16,15 +17,15 @@
 
             <th:block th:each="product : ${products}">
                 <div class="card" style="width: 18rem;display: inline-block;">
-                    <img  class="card-img-top" th:src="'data:image/jpeg;base64,' + ${product.mainImageAsBase64}">
+                    <a th:href="@{'/product/product-info/' + ${product.id}}">
+                        <img width="250" height="250" class="card-img-top" th:src="'data:image/jpeg;base64,' + ${product.mainImageAsBase64}">
+                    </a>
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${product.name}"></h5>
-                        <p class="card-text" th:text="${product.description}"></p>
+                        <h5 class="card-title text-danger fw-bold text-start" th:text="'$' + ${product.price}"></h5>
+                        <p class="card-text text-start text-overflow-lines" th:text="${product.name}"></p>
                         <a th:href="@{'/addCart/' + ${product.id}}" class="btn btn-primary">Add to Cart</a>
                     </div>
                 </div>
-            </th:block>
-
             </th:block>
         </div>
     </div>

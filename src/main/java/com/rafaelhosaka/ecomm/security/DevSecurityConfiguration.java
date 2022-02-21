@@ -44,6 +44,9 @@ public class DevSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .sessionManagement()
+                .invalidSessionUrl("/invalid-session")
+                .and()
                 .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/**","/css/**","/js/**","/webjars/**","/product-images/**","/h2-console/**").permitAll()
@@ -69,7 +72,6 @@ public class DevSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21))
                     .rememberMeParameter("remember-me")
                     .userDetailsService(userDetailsService);
-
 
     }
 

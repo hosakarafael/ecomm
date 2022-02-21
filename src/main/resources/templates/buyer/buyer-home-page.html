@@ -192,20 +192,51 @@
                     <table class="table table-bordered ">
                         <thead class="table-dark">
                         <tr>
+                            <th>Main Image</th>
                             <th>Name</th>
                             <th>Category</th>
-                            <th>Main Image</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         <th:block th:each="product : ${buyer.shop.products}">
                             <tr>
-                                <th th:text="${product.name}"></th>
-                                <th th:text="${product.category.name}"></th>
                                 <th>
                                     <img style="width: 18rem;" class="img-thumbnail" th:src="'data:image/png;base64,' + ${product.mainImageAsBase64}">
                                 </th>
+                                <th th:text="${product.name}"></th>
+                                <th th:text="${product.category.name}"></th>
+                                <th>
+                                    <div class="dropdown">
+                                        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Choose Action
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" th:href="@{'/buyer/showEditBuyerForm/' + ${buyer.id}}">Edit</a></li>
+                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </th>
                             </tr>
+                            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-dark">
+                                            <h5 class="modal-title text-white">Deleting confirmation</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure that you want to delete your product <br> <b>[[${product.name}]]</b>?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form th:action="@{'/buyer/delete/' + ${buyer.id}}">
+                                                <button type="submit" class="btn btn-primary" >Confirm</button>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </th:block>
                         </tbody>
                     </table>

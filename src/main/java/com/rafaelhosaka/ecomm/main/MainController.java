@@ -51,12 +51,31 @@ public class MainController {
         return "/login";
     }
 
+    @GetMapping("/invalid-session")
+    public String invalidSession(){
+        return "invalid-session";
+    }
+
+
     @GetMapping("/addCart/{id}")
     public String addCart(@PathVariable("id") Long productId, Model model) {
-        sessionCart.getProducts().add(productService.findById(productId));
+        sessionCart.add(productService.findById(productId));
         model.addAttribute("products", productService.findAll());
         model.addAttribute("successAlert", "Added to cart successfully!");
         return "/index";
+    }
+
+    @GetMapping("/removeCart/{id}")
+    public String removeCart(@PathVariable("id") Long productId, Model model){
+        sessionCart.remove(productService.findById(productId));
+        return "/shopping-cart-info";
+    }
+
+    @PostMapping("/updateCart/{id}")
+    public String updateCart(@PathVariable("id") Long productId,@ModelAttribute("quantity")Integer newQuantity, Model model){
+        sessionCart.update(productService.findById(productId), newQuantity);
+        model.addAttribute("successAlert","Cart updated!");
+        return "/shopping-cart-info";
     }
 
     @GetMapping("/cartInfo")
@@ -83,6 +102,11 @@ public class MainController {
         }
 
         return "/index";
+    }
+
+    @PostMapping("/checkout")
+    public String checkout(Model model, HttpSession session){
+        return showHomePage(model,session);
     }
 
 }

@@ -11,7 +11,9 @@ import org.springframework.web.context.annotation.SessionScope;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -19,12 +21,43 @@ import java.util.List;
 @Component
 @SessionScope
 public class Cart {
-    private List<Product> products = new ArrayList<>();
+    //key Product -> Quantity of each product
+    private Map<Product,Integer> productsQuantityMap = new HashMap<Product,Integer>();
 
     public int getProductsQuantities(){
-        if(products == null){
-            return 0;
+        int totalQuantity = 0;
+        if(productsQuantityMap == null){
+            return totalQuantity;
         }
-        return products.size();
+        for (Product product : productsQuantityMap.keySet()) {
+            totalQuantity += productsQuantityMap.get(product);
+        }
+        return totalQuantity;
+    }
+
+    public float getTotalPrice(){
+        float totalPrice = 0;
+        for (Product product : this.productsQuantityMap.keySet()) {
+            totalPrice += product.getPrice() * this.productsQuantityMap.get(product);
+        }
+        return  totalPrice;
+    }
+
+    public void add(Product newProduct){
+        if(productsQuantityMap.containsKey(newProduct)){
+            this.productsQuantityMap.put(newProduct, this.productsQuantityMap.get(newProduct) + 1);
+        }else{
+            this.productsQuantityMap.put(newProduct, 1);
+        }
+    }
+
+    public void remove(Product removedProduct){
+        if(this.productsQuantityMap.containsKey(removedProduct)){
+            this.productsQuantityMap.remove(removedProduct);
+        }
+    }
+
+    public void update(Product product, Integer newQuantity) {
+        productsQuantityMap.put(product, newQuantity);
     }
 }

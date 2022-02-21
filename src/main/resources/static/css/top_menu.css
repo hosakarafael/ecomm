@@ -29,7 +29,7 @@ form.index-search-form {
       font-weight: 600;
 }
 
-a, a:hover, a:focus, a:active .cart{
+a.cart, a:hover.cart, a:focus.cart, a:active.cart{
     color: inherit;
 }
 

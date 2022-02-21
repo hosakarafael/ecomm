@@ -13,41 +13,54 @@
 <!-- Page content -->
 <div class="main m-2">
 
-    <th:block th:if="${!session.sessionCart.products.empty}">
+    <th:block th:if="${!session.sessionCart.productsQuantityMap.empty}">
         <h1>Shopping Cart</h1>
         <h5 class="solid price-header">Price</h5>
     </th:block>
-    <th:block th:if="${session.sessionCart.products.empty}">
+    <th:block th:if="${session.sessionCart.productsQuantityMap.empty}">
         <h1>Your Cart is empty!</h1>
-    </th:block>
-
+        <br>
+        <a th:href="@{/index}">Let's do some shopping!</a>
     </th:block>
 
     <div class="container-fluid">
-        <th:block th:if="${!session.sessionCart.products.empty}" th:each="product : ${session.sessionCart.products}">
+        <th:block th:if="${!session.sessionCart.productsQuantityMap.empty}" th:each="map : ${session.sessionCart.productsQuantityMap}">
             <div class="row">
                 <div class="col-2">
-                    <img  width="250" height="250"  th:src="'data:image/jpeg;base64,' + ${product.mainImageAsBase64}">
+                    <a th:href="@{'/product/product-info/' + ${map.key.id}}">
+                        <img  width="250" height="250"  th:src="'data:image/jpeg;base64,' + ${map.key.mainImageAsBase64}">
+                    </a>
                 </div>
                 <div class="col-9">
                     <div class="row">
-                        <p class="name">[[${product.name}]]</p>
+                        <p class="name">[[${map.key.name}]]</p>
                     </div>
                     <div class="row">
-                        <div class="col-auto me-auto">
-                            <select id="quantity" class="form-select">
-                                <option th:each="i : ${#numbers.sequence( 1, 10)}" th:value="${i}" th:text="'Qty:' + ${i}"></option>
-                            </select>
+                        <div class="col-auto me-auto delete-link">
+                            <form th:action="@{'/updateCart/' + ${map.key.id}}" method="post">
+                                <select id="quantity" class="form-select" name="quantity" onchange="this.form.submit()">
+                                    <option th:selected="${ i == map.value}" th:each="i : ${#numbers.sequence( 1, 10)}" th:value="${i}" th:text="'Qty:' + ${i}"></option>
+                                </select>
+                            </form>
+                            <span class="separator">|</span>
+                            <a class="fs-5 m-2" th:href="@{'/removeCart/' + ${map.key.id}}">Delete</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-1">
-                    <label class="price" th:text="'$'+ ${product.price}"></label>
+                    <span class="price" th:text="'$'+ ${map.key.price * map.value}"></span>
                 </div>
 
                 <hr class="solid">
             </div>
         </th:block>
+        <div th:if="${!session.sessionCart.productsQuantityMap.empty}" class="total-price">
+            <form th:action="@{/checkout}" th:method="post">
+                <button class="btn btn-warning me-2" >Proceed to checkout</button>
+            </form>
+            <span th:text="'Total (' + ${session.sessionCart.productsQuantities} + ' items):'"></span>
+            <span class="fw-bold" th:text="'$' + ${session.sessionCart.totalPrice}" ></span>
+        </div>
     </div>
 
 </div>

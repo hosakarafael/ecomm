@@ -121,6 +121,7 @@ public class Bootstrap {
             for (int i = 0 ; i < MAX_PRODUCT; i++) {
 
                 int randomImageIndex = new Random().ints(1, MAX_PRODUCT+1).findFirst().getAsInt();
+
                 switch (randomImageIndex){
                     case 1:
                         category = categoryService.findByName("Electronics");
@@ -132,7 +133,12 @@ public class Bootstrap {
                         category = categoryService.findByName("Books");
                 }
 
-                Product product = new Product("product "+i+" of "+shop.getBuyer().getFirstName(), "description "+i, 123f, 1,category , shop);
+                Product product = new Product("product "+i+" of "+shop.getBuyer().getFirstName(),
+                        faker.lorem().sentence(),
+                        (float) faker.number().numberBetween(1,1000),
+                        2,
+                        category ,
+                        shop);
                 product.setMainImage(retrieveSampleImage("static/images/"+randomImageIndex+".jpeg").getBytes());
                 products.add(product);
             }

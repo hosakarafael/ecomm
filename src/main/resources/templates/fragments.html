@@ -28,7 +28,7 @@
                 <div class="logo_name">Ecomm</div>
             </a>
             <form class="index-search-form" th:action="@{/search}" th:method="get">
-                <select name="categoryId"   class="selector form-select" aria-label="select example">
+                <select name="categoryId"   class="selector" aria-label="select example">
                     <option th:value="0">All</option>
                     <th:block th:each="category : ${sessionCategories}">
                         <option th:if="${selectedCategoryId == category.id}" th:value="${category.id}" th:text="${category.name}" selected></option>
