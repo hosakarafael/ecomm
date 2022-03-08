@@ -38,24 +38,30 @@ public class ShopController {
 
     @Secured({"ROLE_ADMIN","ROLE_BUYER"})
     @PostMapping("/save")
-    public String insertBuyer(@ModelAttribute("sessionBuyer") Buyer buyer, RedirectAttributes redirectAttributes){
+    public String openShop(@ModelAttribute("sessionBuyer") Buyer buyer, RedirectAttributes redirectAttributes){
         buyerService.save(buyer);
         redirectAttributes.addFlashAttribute("successAlert","The shop has been opened for "+buyer.getFirstName()+" successfully");
-        return "redirect:/index";
+        return "redirect:/buyer/home";
     }
 
     @Secured({"ROLE_ADMIN","ROLE_BUYER"})
     @PostMapping("/update/{id}")
     public String updateShop(@PathVariable("id") Long shopId, Buyer buyer, Model model){
-        try {
-            shopService.updateShop(shopId, buyer.getShop());
-            model.addAttribute("successAlert", "Edited information saved successfully!");
+       try {
+            if(true) {
+                //TODO implement password update request
+                shopService.updateShop(shopId, buyer.getShop());
+                model.addAttribute("successAlert", "Edited information saved successfully!");
+            }
         }catch (ShopNotFoundException e){
             model.addAttribute("errorAlert", e.getMessage());
         }
+
         ApplicationUser applicationUser = (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Buyer loggedBuyer = buyerService.getBuyerByEmail(applicationUser.getUsername());
+
         model.addAttribute("buyer",loggedBuyer);
+        model.addAttribute("activeTab","shop");
         return "/buyer/buyer-home-page";
     }
 

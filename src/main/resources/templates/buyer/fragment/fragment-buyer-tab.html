@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<div th:fragment="fragment_tab_content" th:class="'tab-pane fade ' + ${activeTab == 'buyer' ? 'active show' : ''}" id="buyer" role="tabpanel" aria-labelledby="buyer-tab">
+  <form th:action="@{'/buyer/update/' + ${buyer.id}}" th:object="${buyer}" method="post">
+    <div class="container text-center">
+      <div class="row ">
+        <div class="col border border-dark bg-dark text-white">
+          My Information
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 border border-dark">
+          First Name
+        </div>
+        <div class="col border border-dark">
+          <input id="buyer_first_name" class="text-center w-100" disabled type="text" th:field="*{firstName}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 border border-dark">
+          Last Name
+        </div>
+        <div class="col border border-dark">
+          <input id="buyer_last_name" class="text-center w-100" disabled type="text" th:field="*{lastName}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 border border-dark">
+          E-mail
+        </div>
+        <div class="col border border-dark">
+          <input id="buyer_email" class="text-center w-100" disabled type="email" th:field="*{email}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 border border-dark">
+          Address
+        </div>
+        <div class="col border border-dark">
+          <input id="buyer_address" class="text-center w-100" disabled type="text" th:field="*{address}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 border border-dark">
+          Phone Number
+        </div>
+        <div class="col border border-dark">
+          <input id="buyer_phone_number" class="text-center w-100" disabled type="tel" th:field="*{phoneNumber}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 border border-dark">
+          Date of Birth
+        </div>
+        <div class="col border border-dark">
+          <input id="buyer_date_birth" class="text-center w-100" disabled type="date" th:field="*{dateBirth}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 border border-dark">
+          Points
+        </div>
+        <div class="col border border-dark">
+          [[${buyer.point}]]
+        </div>
+      </div>
+    </div>
+    <div class="text-center m-2">
+      <button id="save_buyer_btn" type="submit" disabled class="btn btn-primary">Save changes</button>
+      <button id="edit_buyer_btn" type="button" class="btn btn-primary">Enable edit</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

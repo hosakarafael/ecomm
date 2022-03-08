@@ -24,7 +24,7 @@
     <div class="container">
         <div class="text-center">
             <a th:href="@{/}" style="text-decoration:none" class="main-logo">
-                <i class='fab fa-edge-legacy icon'></i>
+                <i class="icon"></i>
                 <div class="logo_name">Ecomm</div>
             </a>
             <form class="index-search-form" th:action="@{/search}" th:method="get">
@@ -56,7 +56,7 @@
     <div class="sidebar">
         <div class="logo-details">
             <a th:href="@{/}" style="text-decoration:none" class="logo-details">
-                <i class='fab fa-edge-legacy icon'></i>
+                <i class="icon"></i>
                 <div class="logo_name">Ecomm</div>
             </a>
             <i class='fas fa-bars' id="btn" ></i>
@@ -89,7 +89,7 @@
 
 <!-- ADMIN functions -->
             <li sec:authorize="hasRole('ADMIN')">
-                <a  th:href="@{/buyer/list}">
+                <a  th:href="@{/admin/list}">
                     <i class='fas fa-clipboard-list' ></i>
                     <span class="links_name">List of Buyers</span>
                 </a>

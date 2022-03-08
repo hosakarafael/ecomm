@@ -49,7 +49,7 @@ public class DevSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/**","/css/**","/js/**","/webjars/**","/product-images/**","/h2-console/**").permitAll()
+                    .antMatchers("/**","/css/**","/js/**","/webjars/**","/img/**","/h2-console/**").permitAll()
                     .anyRequest()
                     .authenticated()
                 .and()
@@ -66,7 +66,7 @@ public class DevSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .deleteCookies("JSESSIONID")
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
-                    .logoutSuccessUrl("/")
+                    .logoutSuccessUrl("/login")
                 .and()
                 .rememberMe().
                     tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21))

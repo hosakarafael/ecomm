@@ -17,232 +17,33 @@
     <!-- TAB -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="buyer-tab" data-bs-toggle="tab" data-bs-target="#buyer" type="button"
-                    role="tab" aria-controls="buyer" aria-selected="true">Buyer
+            <button th:class="'nav-link ' + ${activeTab == 'buyer' ? 'active' : ''}" id="buyer-tab" data-bs-toggle="tab" data-bs-target="#buyer" type="button"
+                    role="tab" aria-controls="buyer" aria-selected="false">My Information
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="shop-tab" data-bs-toggle="tab" data-bs-target="#shop" type="button" role="tab"
-                    aria-controls="profile" aria-selected="false">Shop
+            <button th:class="'nav-link ' + ${activeTab == 'shop' ? 'active' : ''}" id="shop-tab" data-bs-toggle="tab" data-bs-target="#shop" type="button" role="tab"
+                    aria-controls="shop" aria-selected="true">My Shop
             </button>
         </li>
         <th:block th:if="${buyer.shop != null}">
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="product-tab" data-bs-toggle="tab" data-bs-target="#product" type="button"
-                        role="tab" aria-controls="profile" aria-selected="false">List of Products
+                <button th:class="'nav-link ' + ${activeTab == 'product' ? 'active' : ''}" id="product-tab" data-bs-toggle="tab" data-bs-target="#product" type="button"
+                        role="tab" aria-controls="product" aria-selected="false">My Product
                 </button>
             </li>
         </th:block>
     </ul>
 
-
-
     <!-- CONTENT OF TAB -->
     <div class="tab-content m-2" id="myTabContent">
         <!-- BUYER TAB CONTENT-->
-        <div class="tab-pane fade show active" id="buyer" role="tabpanel" aria-labelledby="buyer-tab">
-            <form th:action="@{'/buyer/update/' + ${buyer.id}}" th:object="${buyer}" method="post">
-                <div class="container text-center">
-                    <div class="row ">
-                        <div class="col border border-dark bg-dark text-white">
-                            Buyer Information
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col border border-dark">
-                            First Name
-                        </div>
-                        <div class="col border border-dark">
-                            <input id="buyer_first_name" class="text-center w-100" disabled type="text" th:field="*{firstName}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col border border-dark">
-                            Last Name
-                        </div>
-                        <div class="col border border-dark">
-                            <input id="buyer_last_name" class="text-center w-100" disabled type="text" th:field="*{lastName}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col border border-dark">
-                            E-mail
-                        </div>
-                        <div class="col border border-dark">
-                            <input id="buyer_email" class="text-center w-100" disabled type="email" th:field="*{email}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col border border-dark">
-                            Address
-                        </div>
-                        <div class="col border border-dark">
-                            <input id="buyer_address" class="text-center w-100" disabled type="text" th:field="*{address}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col border border-dark">
-                            Phone Number
-                        </div>
-                        <div class="col border border-dark">
-                            <input id="buyer_phone_number" class="text-center w-100" disabled type="tel" th:field="*{phoneNumber}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col border border-dark">
-                            Date of Birth
-                        </div>
-                        <div class="col border border-dark">
-                            <input id="buyer_date_birth" class="text-center w-100" disabled type="date" th:field="*{dateBirth}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col border border-dark">
-                            Points
-                        </div>
-                        <div class="col border border-dark">
-                            [[${buyer.point}]]
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <button id="save_buyer_btn" type="submit" disabled class="btn btn-primary">Save changes</button>
-                    <button id="edit_buyer_btn" type="button" class="btn btn-primary">Enable edit</button>
-                </div>
-            </form>
-        </div>
-
-
-
-
+        <div th:replace="buyer/fragment/fragment-buyer-tab :: fragment_tab_content"></div>
         <!-- SHOP TAB CONTENT -->
-        <div class="tab-pane fade" id="shop" role="tabpanel" aria-labelledby="shop-tab">
-            <form th:action="@{'/shop/update/' + ${buyer.shop.id}}" th:object="${buyer}" method="post">
-                <div class="container text-center">
-                    <div class="row">
-                        <div class="col border border-dark bg-dark text-white">
-                            Shop Information
-                        </div>
-                    </div>
-                    <th:block th:if="${buyer.shop == null}">
-                        <div class="row">
-                            <div class="col border border-dark">
-                                No shop opened
-                            </div>
-                            <div class="m-2">
-                                <a class="h3" th:href="@{'/shop/showNewShopForm/' + ${buyer.id}}">Add New Shop</a>
-                            </div>
-                        </div>
+        <div th:replace="buyer/fragment/fragment-shop-tab :: fragment_tab_content"></div>
 
-                    </th:block>
-                    <th:block th:if="${buyer.shop != null}">
-                        <div class="row">
-                            <div class="col border border-dark">
-                                Name
-                            </div>
-                            <div class="col border border-dark">
-                                <input id="shop_name" class="text-center w-100" disabled type="text" th:field="*{shop.name}">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col border border-dark">
-                                Description
-                            </div>
-                            <div class="col border border-dark">
-                                <input id="shop_description" class="text-center w-100" disabled type="text" th:field="*{shop.description}">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col border border-dark">
-                                Phone Number
-                            </div>
-                            <div class="col border border-dark">
-                                <input id="shop_phone_number" class="text-center w-100" disabled type="text" th:field="*{shop.phoneNumber}">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col border border-dark">
-                                Address
-                            </div>
-                            <div class="col border border-dark">
-                                <input id="shop_address" class="text-center w-100" disabled type="text" th:field="*{shop.address}">
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <button id="save_shop_btn" type="submit" disabled class="btn btn-primary">Save changes</button>
-                            <button id="edit_shop_btn" type="button" class="btn btn-primary">Enable edit</button>
-                        </div>
-                    </th:block>
-                </div>
-            </form>
-        </div>
         <!-- PRODUCT TAB CONTENT -->
-        <div class="tab-pane fade" id="product" role="tabpanel" aria-labelledby="product-tab">
-            <th:block th:if="${buyer.shop != null}">
-                <th:block th:if="${buyer.shop.products.empty}">
-                    <div class="container text-center">
-                        <div class="row">
-                            <div class="col border border-dark">
-                                No product available
-                            </div>
-                        </div>
-                    </div>
-                </th:block>
-                <th:block th:if="${!buyer.shop.products.empty}">
-                    <table class="table table-bordered ">
-                        <thead class="table-dark">
-                        <tr>
-                            <th>Main Image</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <th:block th:each="product : ${buyer.shop.products}">
-                            <tr>
-                                <th>
-                                    <img style="width: 18rem;" class="img-thumbnail" th:src="'data:image/png;base64,' + ${product.mainImageAsBase64}">
-                                </th>
-                                <th th:text="${product.name}"></th>
-                                <th th:text="${product.category.name}"></th>
-                                <th>
-                                    <div class="dropdown">
-                                        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Choose Action
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" th:href="@{'/buyer/showEditBuyerForm/' + ${buyer.id}}">Edit</a></li>
-                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </th>
-                            </tr>
-                            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-dark">
-                                            <h5 class="modal-title text-white">Deleting confirmation</h5>
-                                        </div>
-                                        <div class="modal-body">
-                                            Are you sure that you want to delete your product <br> <b>[[${product.name}]]</b>?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                            <form th:action="@{'/buyer/delete/' + ${buyer.id}}">
-                                                <button type="submit" class="btn btn-primary" >Confirm</button>
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th:block>
-                        </tbody>
-                    </table>
-                </th:block>
-            </th:block>
-        </div>
+        <div th:replace="buyer/fragment/fragment-product-tab :: fragment_tab_content"></div>
     </div>
 </div>
 <div th:replace="fragments :: fragment_script"></div>

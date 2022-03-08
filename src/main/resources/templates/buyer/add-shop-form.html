@@ -21,6 +21,26 @@
                     <input type="text" th:field="*{shop.name}" class="form-control"/>
                 </div>
             </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Phone Number</label>
+                <div class="col-sm-8">
+                    <input type="tel" th:field="*{shop.phoneNumber}" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="080-1234-5678" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Address</label>
+                <div class="col-sm-8">
+                    <input type="text" th:field="*{shop.address}" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Description</label>
+                <div class="col-sm-8">
+                    <textarea type="textarea" th:field="*{shop.description}" class="form-control"/>
+                </div>
+            </div>
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary m-2">Submit</button>
@@ -32,7 +52,7 @@
 </div>
 <script type="text/javascript">
     function cancelForm(){
-        window.location = "[[@{/buyer/list}]]"
+        window.location = "[[@{/buyer/home}]]"
    }
 </script>
 </body>

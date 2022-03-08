@@ -1,5 +1,6 @@
 package com.rafaelhosaka.ecomm.auth;
 
+import com.rafaelhosaka.ecomm.exception.UsernameDuplicatedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +26,10 @@ public class ApplicationUserService implements UserDetailsManager {
     }
 
     @Override
-    public void createUser(UserDetails userDetails) {
+    public void createUser(UserDetails userDetails) throws UsernameDuplicatedException{
+        if(applicationUserRepository.getApplicationUserByUsername(userDetails.getUsername()).getUserAccount() != null){
+            throw new UsernameDuplicatedException("204", "The username "+ userDetails.getUsername() +" already taken");
+        }
         applicationUserRepository.createApplicationUser(userDetails);
     }
 

@@ -10,6 +10,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,12 +36,12 @@ public class Cart {
         return totalQuantity;
     }
 
-    public float getTotalPrice(){
+    public String getTotalPrice(){
         float totalPrice = 0;
         for (Product product : this.productsQuantityMap.keySet()) {
             totalPrice += product.getPrice() * this.productsQuantityMap.get(product);
         }
-        return  totalPrice;
+        return  new DecimalFormat("##.00").format(totalPrice);
     }
 
     public void add(Product newProduct){

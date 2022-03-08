@@ -5,10 +5,11 @@ import com.rafaelhosaka.ecomm.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -28,10 +29,11 @@ public class Shop {
 
     private String address;
 
+    @ToString.Exclude
     @OneToOne(mappedBy = "shop")
     Buyer buyer;
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Product> products = new HashSet<Product>();
 
     public Shop(String name, String description, String phoneNumber, String address, Buyer buyer) {
@@ -40,5 +42,11 @@ public class Shop {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.buyer = buyer;
+    }
+
+    public Set<Product> getSortedProductsByName(){
+        return this.products.stream()
+                .sorted(Comparator.comparing(Product::getName))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }

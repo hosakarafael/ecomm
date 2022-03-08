@@ -17,8 +17,6 @@ import com.rafaelhosaka.ecomm.account.UserRole;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockMultipartFile;
@@ -26,22 +24,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.Month;
 import java.time.ZoneId;
 import java.util.*;
 
 /**
  * Class responsible for configuring all data in the database for initial uses
  */
-@Configuration
 public class Bootstrap {
 
     private Faker faker = new Faker();
     final static int MAX_BUYER = 3;
     final static int MAX_PRODUCT = 3;
 
-    @Bean
     CommandLineRunner commandLineRunner(BuyerService buyerService, ShopService shopService , ApplicationUserService applicationUserService, CategoryService categoryService){
         return args -> {
             configureBuyers(buyerService, applicationUserService);
@@ -139,7 +133,7 @@ public class Bootstrap {
                         2,
                         category ,
                         shop);
-                product.setMainImage(retrieveSampleImage("static/images/"+randomImageIndex+".jpeg").getBytes());
+                product.setMainImage(retrieveSampleImage("static/img/" +randomImageIndex+".jpeg").getBytes());
                 products.add(product);
             }
             shop.setProducts(products);

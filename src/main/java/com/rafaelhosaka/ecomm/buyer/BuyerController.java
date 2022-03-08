@@ -6,6 +6,8 @@ import com.rafaelhosaka.ecomm.account.UserRole;
 import com.rafaelhosaka.ecomm.auth.ApplicationUser;
 import com.rafaelhosaka.ecomm.auth.ApplicationUserService;
 import com.rafaelhosaka.ecomm.exception.BuyerNotFoundException;
+import com.rafaelhosaka.ecomm.exception.UsernameDuplicatedException;
+import com.rafaelhosaka.ecomm.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,14 +30,6 @@ public class BuyerController {
         this.applicationUserService = applicationUserService;
     }
 
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/list")
-    public String getBuyers(Model model){
-        model.addAttribute("buyers",buyerService.getAllBuyers());
-
-        return "/admin/buyers-list";
-    }
-
     @GetMapping("/showNewBuyerForm")
     public String showNewBuyerForm(Model model){
         model
@@ -55,30 +49,24 @@ public class BuyerController {
     }
 
     @PostMapping("/save")
-    public String insertBuyer(Buyer buyer, RedirectAttributes redirectAttributes){
-        buyerService.save(buyer);
-        applicationUserService.createUser(new ApplicationUser(
-                new UserAccount(buyer.getEmail(),
-                        buyer.getPassword(),
-                        true,
-                        Lists.newArrayList(UserRole.BUYER)
-                )));
-        redirectAttributes.addFlashAttribute("successAlert","Account created successfully");
+    public String createBuyer(Buyer buyer, RedirectAttributes redirectAttributes){
+        try {
+            applicationUserService.createUser(new ApplicationUser(
+                    new UserAccount(buyer.getEmail(),
+                            buyer.getPassword(),
+                            true,
+                            Lists.newArrayList(UserRole.BUYER)
+                    )));
+            buyerService.save(buyer);
+            redirectAttributes.addFlashAttribute("successAlert","Account created successfully");
+        }catch (UsernameDuplicatedException e){
+            redirectAttributes.addFlashAttribute("errorAlert","email taken");
+            return showNewBuyerForm(redirectAttributes);
+        }
+
         return "redirect:/login";
     }
 
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/delete/{id}")
-    public String deleteBuyer(@PathVariable("id") Long buyerId, RedirectAttributes redirectAttributes){
-        try {
-            buyerService.deleteBuyer(buyerId);
-            redirectAttributes.addFlashAttribute("successAlert","The buyer has been deleted successfully");
-        } catch (BuyerNotFoundException e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("errorAlert",e.getMessage());
-        }
-        return "redirect:/buyer/buyers-list";
-    }
 
     @Secured({"ROLE_ADMIN","ROLE_BUYER"})
     @GetMapping("/showBuyerInfo/{id}")
@@ -94,6 +82,7 @@ public class BuyerController {
         ApplicationUser applicationUser = (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Buyer loggedBuyer = buyerService.getBuyerByEmail(applicationUser.getUsername());
         model.addAttribute("buyer",loggedBuyer);
+        model.addAttribute("activeTab","buyer");
         return "/buyer/buyer-home-page";
     }
 
@@ -109,8 +98,7 @@ public class BuyerController {
         ApplicationUser applicationUser = (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Buyer loggedBuyer = buyerService.getBuyerByEmail(applicationUser.getUsername());
         model.addAttribute("buyer",loggedBuyer);
+        model.addAttribute("activeTab","buyer");
         return "/buyer/buyer-home-page";
     }
-
-
 }

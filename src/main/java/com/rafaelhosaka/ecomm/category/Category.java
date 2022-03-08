@@ -14,7 +14,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
-    String name;
+
+    @Column(unique = true)
+    private String name;
 
     public Category(String name) {
         this.name = name;

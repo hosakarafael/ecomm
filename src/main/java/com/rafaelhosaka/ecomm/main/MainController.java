@@ -16,25 +16,22 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
-@SessionAttributes("sessionCategories")
 public class MainController {
 
     private final ProductService productService;
-    private final CategoryService categoryService;
     private Cart sessionCart;
 
     @Autowired
-    public MainController(ProductService productService, CategoryService categoryService, Cart cart) {
+    public MainController(ProductService productService, Cart cart) {
         this.productService = productService;
-        this.categoryService = categoryService;
         this.sessionCart = cart;
     }
 
     @RequestMapping(value={"/","","/index"})
     public String showHomePage(Model model, HttpSession session){
-        model.addAttribute("products",productService.findAll());
+        model.addAttribute("products",productService.findAllEnabled());
 
-        model.addAttribute("sessionCategories", categoryService.findAll());
+
         session.setAttribute("sessionCart",sessionCart);
         return "/index";
     }
@@ -59,21 +56,21 @@ public class MainController {
 
     @GetMapping("/addCart/{id}")
     public String addCart(@PathVariable("id") Long productId, Model model) {
-        sessionCart.add(productService.findById(productId));
-        model.addAttribute("products", productService.findAll());
+        sessionCart.add(productService.findEnabledById(productId));
+        model.addAttribute("products", productService.findAllEnabled());
         model.addAttribute("successAlert", "Added to cart successfully!");
         return "/index";
     }
 
     @GetMapping("/removeCart/{id}")
     public String removeCart(@PathVariable("id") Long productId, Model model){
-        sessionCart.remove(productService.findById(productId));
+        sessionCart.remove(productService.findEnabledById(productId));
         return "/shopping-cart-info";
     }
 
     @PostMapping("/updateCart/{id}")
     public String updateCart(@PathVariable("id") Long productId,@ModelAttribute("quantity")Integer newQuantity, Model model){
-        sessionCart.update(productService.findById(productId), newQuantity);
+        sessionCart.update(productService.findEnabledById(productId), newQuantity);
         model.addAttribute("successAlert","Cart updated!");
         return "/shopping-cart-info";
     }
@@ -87,17 +84,17 @@ public class MainController {
     public String searchProductsByCategory(@ModelAttribute("categoryId")Long categoryId,@ModelAttribute("searchText") String searchText, Model model){
         if(searchText.isEmpty()){
             if(categoryId != 0){
-                model.addAttribute("products",productService.findByCategoryId(categoryId));
+                model.addAttribute("products",productService.findEnabledByCategoryId(categoryId));
                 model.addAttribute("selectedCategoryId",categoryId);
             }else{
-                model.addAttribute("products",productService.findAll());
+                model.addAttribute("products",productService.findAllEnabled());
             }
         }else{
             if(categoryId != 0){
-                model.addAttribute("products",productService.findByNameAndCategoryId(searchText,categoryId));
+                model.addAttribute("products",productService.findEnabledByNameAndCategoryId(searchText,categoryId));
                 model.addAttribute("selectedCategoryId",categoryId);
             }else{
-                model.addAttribute("products",productService.findByName(searchText));
+                model.addAttribute("products",productService.findEnabledByName(searchText));
             }
         }
 

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<div th:fragment="fragment_tab_content" th:class="'tab-pane fade ' + ${activeTab == 'product' ? ' active show' : ''}" id="product" role="tabpanel" aria-labelledby="product-tab">
+  <th:block th:if="${buyer.shop != null}">
+    <th:block th:if="${buyer.shop.products.empty}">
+      <div class="container text-center">
+        <div class="row">
+          <div class="col border border-dark">
+            No product available
+          </div>
+        </div>
+      </div>
+    </th:block>
+    <th:block th:if="${!buyer.shop.products.empty}">
+      <table class="table table-bordered ">
+        <thead class="table-dark">
+        <tr>
+          <th>Main Image</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="product : ${buyer.shop.sortedProductsByName}">
+          <tr>
+            <th th:class="${product.enabled ? '' : 'opacity'}">
+              <img th:onclick="'zoomInImage(\'zoom-image' + ${product.id} + '\')'" id="small-image" th:class="${product.enabled ? 'product-image' : 'product-disabled-image'}" th:src="${product.mainImageAsBase64}">
+              <div onclick="zoomOutImage(this)" th:id="'zoom-image' + ${product.id}" class="product-image-overlay">
+                <img class="zoom-image" width="500" height="500" th:src="${product.mainImageAsBase64}">
+              </div>
+            </th>
+            <th th:class="'text-overflow-lines ' + ${product.enabled ? '' : 'opacity'}" th:text="${product.name}" ></th>
+            <th th:class="${product.enabled ? '' : 'opacity'}" th:text="${product.formattedPrice}"></th>
+            <th th:class="${product.enabled ? '' : 'opacity'}" th:text="${product.category.name}"></th>
+            <th>
+              <th:block th:if="${product.enabled}">
+                <div class="dropdown">
+                  <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Choose Action
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" th:href="@{'/buyer/showEditBuyerForm/' + ${buyer.id}}">Edit</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${product.id}" th:text="Disable"></a></li>
+                  </ul>
+                </div>
+              </th:block>
+              <a th:if="${!product.enabled}" class="btn btn-dark" th:href="@{'/product/enableProduct/true/' + ${product.id}}">Enable</a>
+            </th>
+          </tr>
+          <div class="modal fade" th:id="'deleteModal' + ${product.id}" tabindex="-1" th:aria-labelledby="'deleteModal' + ${product.id}" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <div class="modal-header bg-dark">
+                  <h5 class="modal-title text-white">Disabling confirmation</h5>
+                </div>
+                <div class="modal-body">
+                  Are you sure that you want to disable your product <br> <b>[[${product.name}]]</b>?<br>
+                  This product will not be visible. If you want you can enable again.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <form th:action="@{'/product/enableProduct/false/' + ${product.id}}" method="get">
+                    <button type="submit" class="btn btn-primary" >Confirm</button>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+        </tbody>
+      </table>
+    </th:block>
+  </th:block>
+</div>
+</body>
+</html>

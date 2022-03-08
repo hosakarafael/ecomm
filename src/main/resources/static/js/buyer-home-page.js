@@ -70,3 +70,11 @@ function disableFields(fields){
 
     }
 }
+
+function zoomInImage(id){
+    document.getElementById(id).style.display = "block";
+}
+
+function zoomOutImage(element){
+    element.style.display = "none";
+}

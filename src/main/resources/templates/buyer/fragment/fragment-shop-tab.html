@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<div th:fragment="fragment_tab_content" th:class="'tab-pane fade ' + ${activeTab == 'shop' ? ' active show' : ''}" id="shop" role="tabpanel" aria-labelledby="shop-tab">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col border border-dark bg-dark text-white">
+        Shop Information
+      </div>
+    </div>
+    <th:block th:if="${buyer.shop == null}">
+      <div class="row">
+        <div class="col border border-dark">
+          <div class="m-2">
+            <a class="h3" style="text-decoration: none" th:href="@{'/shop/showNewShopForm/' + ${buyer.id}}">Open My Shop</a>
+          </div>
+        </div>
+
+      </div>
+    </th:block>
+    <form th:if="${buyer.shop != null}" th:action="@{'/shop/update/' + ${buyer.shop.id}}" th:object="${buyer}" method="post">
+
+      <th:block th:if="${buyer.shop != null}">
+        <div class="row">
+          <div class="col-3 border border-dark">
+            Name
+          </div>
+          <div class="col border border-dark">
+            <input id="shop_name" class="text-center w-100" disabled type="text" th:field="*{shop.name}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3 border border-dark">
+            Description
+          </div>
+          <div class="col border border-dark">
+            <textarea id="shop_description" class="text-center w-100" disabled type="text" th:field="*{shop.description}"/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3 border border-dark">
+            Phone Number
+          </div>
+          <div class="col border border-dark">
+            <input id="shop_phone_number" class="text-center w-100" disabled type="text" th:field="*{shop.phoneNumber}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3 border border-dark">
+            Address
+          </div>
+          <div class="col border border-dark">
+            <input id="shop_address" class="text-center w-100" disabled type="text" th:field="*{shop.address}">
+          </div>
+        </div>
+        <div class="text-center m-2">
+          <button id="save_shop_btn" type="submit" disabled class="btn btn-primary">Save changes</button>
+          <button id="edit_shop_btn" type="button" class="btn btn-primary">Enable edit</button>
+        </div>
+      </th:block>
+    </form>
+  </div>
+</div>
+</body>
+</html>
