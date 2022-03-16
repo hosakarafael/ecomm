@@ -79,9 +79,7 @@ public class BuyerController {
     @Secured("ROLE_BUYER")
     @GetMapping("/home")
     public String showBuyerHomePage(Model model){
-        ApplicationUser applicationUser = (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Buyer loggedBuyer = buyerService.getBuyerByEmail(applicationUser.getUsername());
-        model.addAttribute("buyer",loggedBuyer);
+        model.addAttribute("buyer",model.getAttribute("loggedBuyer"));
         model.addAttribute("activeTab","buyer");
         return "/buyer/buyer-home-page";
     }
@@ -95,9 +93,7 @@ public class BuyerController {
         }catch (IllegalStateException e) {
             model.addAttribute("errorAlert", e.getMessage());
         }
-        ApplicationUser applicationUser = (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Buyer loggedBuyer = buyerService.getBuyerByEmail(applicationUser.getUsername());
-        model.addAttribute("buyer",loggedBuyer);
+
         model.addAttribute("activeTab","buyer");
         return "/buyer/buyer-home-page";
     }

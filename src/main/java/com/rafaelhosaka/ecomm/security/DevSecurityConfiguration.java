@@ -3,6 +3,7 @@ package com.rafaelhosaka.ecomm.security;
 import com.rafaelhosaka.ecomm.account.UserRole;
 import com.rafaelhosaka.ecomm.auth.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -35,6 +36,10 @@ public class DevSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
     @Autowired
+    @Qualifier("customRequestCache")
+    RequestCache requestCache;
+
+    @Autowired
     public DevSecurityConfiguration(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService, UserDetailsService userDetailsService) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
@@ -44,6 +49,9 @@ public class DevSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .requestCache()
+                    .requestCache(requestCache)
+                .and()
                 .sessionManagement()
                 .invalidSessionUrl("/invalid-session")
                 .and()

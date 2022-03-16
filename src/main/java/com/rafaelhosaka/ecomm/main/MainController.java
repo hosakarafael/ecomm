@@ -31,8 +31,8 @@ public class MainController {
     public String showHomePage(Model model, HttpSession session){
         model.addAttribute("products",productService.findAllEnabled());
 
-
         session.setAttribute("sessionCart",sessionCart);
+
         return "/index";
     }
 
@@ -99,11 +99,6 @@ public class MainController {
         }
 
         return "/index";
-    }
-
-    @PostMapping("/checkout")
-    public String checkout(Model model, HttpSession session){
-        return showHomePage(model,session);
     }
 
 }

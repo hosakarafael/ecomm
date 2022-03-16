@@ -1,8 +1,8 @@
-package com.rafaelhosaka.ecomm.shop;
+package com.rafaelhosaka.ecomm.order;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ShopRepository extends JpaRepository<Shop,Long>{
+public interface OrderedProductRepository extends JpaRepository<OrderedProduct, Long> {
 }

@@ -1,6 +1,7 @@
-package com.rafaelhosaka.ecomm.product;
+package com.rafaelhosaka.ecomm.order;
 
 import com.rafaelhosaka.ecomm.category.Category;
+import com.rafaelhosaka.ecomm.product.Product;
 import com.rafaelhosaka.ecomm.shop.Shop;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -9,17 +10,22 @@ import org.springframework.util.Base64Utils;
 import javax.persistence.*;
 import java.text.DecimalFormat;
 
-@Getter
-@Setter
+@Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Entity
-@Table(name = "product")
-public class Product {
+@Builder
+public class OrderedProduct {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private int quantity;
+
+    @ToString.Exclude
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     private String name;
 
@@ -27,40 +33,19 @@ public class Product {
 
     private Float price;
 
-    @Column(columnDefinition="BOOLEAN DEFAULT true")
-    private boolean isEnabled;
-
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
-    private byte[] mainImage;
-
-    @OneToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
+    private byte[] image;
 
     public String getMainImageAsBase64() {
         final String NO_IMAGE_PATH = "/img/no-image.jpeg";
 
-        if (this.mainImage != null){
+        if (this.image != null){
             StringBuilder header = new StringBuilder("data:image/jpeg;base64,");
-            header.append(Base64Utils.encodeToString(this.mainImage));
+            header.append(Base64Utils.encodeToString(this.image));
             return header.toString();
         }
         return NO_IMAGE_PATH;
-    }
-
-    public Product(String name, String description, Float price, Category category, Shop shop) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.mainImage = mainImage;
-        this.category = category;
-        this.shop = shop;
     }
 
     public String getFormattedPrice(){
@@ -72,9 +57,9 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Product product = (Product) o;
+        OrderedProduct orderedProduct = (OrderedProduct) o;
 
-        return id.equals(product.id);
+        return id.equals(orderedProduct.id);
     }
 
     @Override

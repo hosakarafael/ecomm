@@ -61,4 +61,8 @@ public class Cart {
     public void update(Product product, Integer newQuantity) {
         productsQuantityMap.put(product, newQuantity);
     }
+
+    public void resetCart(){
+        productsQuantityMap = new HashMap<>();
+    }
 }

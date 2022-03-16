@@ -26,7 +26,7 @@
                     aria-controls="shop" aria-selected="true">My Shop
             </button>
         </li>
-        <th:block th:if="${buyer.shop != null}">
+        <th:block th:if="${loggedBuyer.shop != null}">
             <li class="nav-item" role="presentation">
                 <button th:class="'nav-link ' + ${activeTab == 'product' ? 'active' : ''}" id="product-tab" data-bs-toggle="tab" data-bs-target="#product" type="button"
                         role="tab" aria-controls="product" aria-selected="false">My Product

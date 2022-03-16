@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    <th:block th:replace="fragments :: fragment_css"></th:block>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/checkout.css}"/>
+</head>
+<body>
+<div th:replace="fragments :: fragment_top_menu" />
+<div th:replace="fragments :: fragment_sidebar"></div>
+<div class="main m-2">
+    <form th:action="@{/order/checkout}" style="max-width: 650px; margin: 0 auto;" method="post">
+        <div class="border border-secondary rounded p-3">
+            <label>1 Shipping Address</label><br>
+            <div class="border border-secondary rounded m-2 p-2">
+                <input class="form-check-input" type="radio" name="radioAddress" th:value="${loggedBuyer.address}" id="radioAddress" checked>
+                <label class="form-check-label" th:text="${loggedBuyer.address}" for="radioAddress"></label><br>
+            </div>
+            <label>2 Payment Method</label>
+            <div class="border border-secondary rounded m-2 p-2">
+                <select id="payment_method" class="form-select" name="paymentMethod" required>
+                    <option value="">Choose a payment method</option>
+                    <option th:each="method : ${T(com.rafaelhosaka.ecomm.order.PaymentMethod).values()}"
+                            th:value="${method}"
+                            th:text="${method}">
+                    </option>
+                </select>
+            </div>
+            <label>3 Review items</label>
+            <div class="border border-secondary rounded m-2 p-2">
+                <th:block th:if="${!session.sessionCart.productsQuantityMap.empty}" th:each="map : ${session.sessionCart.productsQuantityMap}">
+                    <div class="row">
+                        <div class="col-2">
+                            <a th:href="@{'/product/productInfo/' + ${map.key.id}}">
+                                <img  width="100" height="100"  th:src="${map.key.mainImageAsBase64}">
+                            </a>
+                        </div>
+                        <div class="col-9">
+                            <div class="row">
+                                <span class="fs-5">[[${map.key.name}]]</span>
+                                <span class="fs-5 text-danger" th:text="'$'+ ${#numbers.formatDecimal( map.key.price ,0,2,'POINT')}"></span>
+                                <span class="fs-5" th:text="'Quantity:' + ${map.value}"></span>
+                            </div>
+                        </div>
+                        <hr class="solid">
+                    </div>
+                </th:block>
+            </div>
+
+             <div class="border border-secondary rounded m-2 p-2">
+                    <button class="btn btn-warning m-2">Place your order</button>
+                    <label class="text-danger fw-bold" th:text="'Order Total: $' + ${session.sessionCart.totalPrice}"></label>
+             </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

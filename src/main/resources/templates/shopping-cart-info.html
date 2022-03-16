@@ -48,16 +48,16 @@
                     </div>
                 </div>
                 <div class="col-1">
-                    <span class="price" th:text="'$'+ ${#numbers.formatDecimal( map.key.price * map.value ,0,2,'POINT')}"></span>
+                    <span class="price" th:text="'$'+ ${#numbers.formatDecimal( map.key.price  ,0,2,'POINT')}"></span>
                 </div>
 
                 <hr class="solid">
             </div>
         </th:block>
-        <div th:if="${!session.sessionCart.productsQuantityMap.empty}" class="total-price">
-            <form th:action="@{/checkout}" th:method="post">
-                <button class="btn btn-warning me-2" >Proceed to checkout</button>
-            </form>
+        <div th:if="${!session.sessionCart.productsQuantityMap.empty}" class="total-price p-3">
+
+            <a th:href="@{/order/showCheckout}" class="btn btn-warning me-2" >Proceed to checkout</a>
+
             <span th:text="'Total (' + ${session.sessionCart.productsQuantities} + ' items):'"></span>
             <span class="fw-bold" th:text="'$' + ${session.sessionCart.totalPrice}" ></span>
         </div>

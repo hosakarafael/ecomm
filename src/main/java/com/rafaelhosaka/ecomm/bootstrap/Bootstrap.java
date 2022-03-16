@@ -130,7 +130,6 @@ public class Bootstrap {
                 Product product = new Product("product "+i+" of "+shop.getBuyer().getFirstName(),
                         faker.lorem().sentence(),
                         (float) faker.number().numberBetween(1,1000),
-                        2,
                         category ,
                         shop);
                 product.setMainImage(retrieveSampleImage("static/img/" +randomImageIndex+".jpeg").getBytes());

@@ -1,0 +1,5 @@
+hr.solid {
+  border-bottom: 3px solid #bbb;
+  position: relative;
+  top: 10px;
+}

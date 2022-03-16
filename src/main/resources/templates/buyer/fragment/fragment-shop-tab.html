@@ -12,19 +12,19 @@
         Shop Information
       </div>
     </div>
-    <th:block th:if="${buyer.shop == null}">
+    <th:block th:if="${loggedBuyer.shop == null}">
       <div class="row">
         <div class="col border border-dark">
           <div class="m-2">
-            <a class="h3" style="text-decoration: none" th:href="@{'/shop/showNewShopForm/' + ${buyer.id}}">Open My Shop</a>
+            <a class="h3" style="text-decoration: none" th:href="@{'/shop/showNewShopForm/' + ${loggedBuyer.id}}">Open My Shop</a>
           </div>
         </div>
 
       </div>
     </th:block>
-    <form th:if="${buyer.shop != null}" th:action="@{'/shop/update/' + ${buyer.shop.id}}" th:object="${buyer}" method="post">
+    <form th:if="${loggedBuyer.shop != null}" th:action="@{'/shop/update/' + ${loggedBuyer.shop.id}}" th:object="${loggedBuyer}" method="post">
 
-      <th:block th:if="${buyer.shop != null}">
+      <th:block th:if="${loggedBuyer.shop != null}">
         <div class="row">
           <div class="col-3 border border-dark">
             Name
