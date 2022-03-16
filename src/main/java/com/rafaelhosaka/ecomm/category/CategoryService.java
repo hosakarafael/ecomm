@@ -1,5 +1,7 @@
 package com.rafaelhosaka.ecomm.category;
 
+import com.github.javafaker.Cat;
+import com.rafaelhosaka.ecomm.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,14 @@ public class CategoryService {
 
     public List<Category> findAll(){
         return categoryRepository.findAll();
+    }
+
+    public Category findById(Long id) throws CategoryNotFoundException{
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+        if(!optionalCategory.isPresent()){
+            throw new CategoryNotFoundException("207","Category with ID " + id + " does not exist");
+        }
+        return  optionalCategory.get();
     }
 
     public void save(Category category){

@@ -46,7 +46,7 @@
                     Choose Action
                   </button>
                   <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" th:href="@{'/buyer/showEditBuyerForm/' + ${buyer.id}}">Edit</a></li>
+                    <li><a class="dropdown-item" th:href="@{'/product/showEditProduct/' + ${product.id}}">Edit</a></li>
                     <li><a class="dropdown-item" data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${product.id}" th:text="Disable"></a></li>
                   </ul>
                 </div>

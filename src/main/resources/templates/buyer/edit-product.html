@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <th:block th:replace="fragments :: fragment_css"></th:block>
+    <title>Edit Product</title>
+</head>
+<body>
+<div th:replace="fragments :: fragment_sidebar"></div>
+<div th:replace="fragments :: fragment_top_menu"></div>
+<div class="main m-2">
+    <form th:action="@{/product/update}" th:object="${product}" enctype="multipart/form-data" method="post" style="max-width: 650px; margin: 0 auto;">
+        <div class="border border-secondary rounded p-3">
+            <input type="hidden" th:field="*{id}">
+
+
+            <label for="name" class="form-label">Name</label>
+            <input id="name" class="form-control" type="text" th:field="*{name}">
+
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" class="form-control" type="text" th:field="*{description}"></textarea>
+
+            <label for="price" class="form-label">Price</label>
+            <input id="price" class="form-control" placeholder="1111.11" type="text" onkeyup="validate(event)" onchange="checkDecimal(event)" pattern="^\d+(\.\d{1,2})?$" th:field="*{price}">
+
+            <label class="form-label">Main Image</label>
+            <div class="input-group mb-3">
+                <label for="main-image" class="input-group-text" style="cursor: pointer;">Choose File</label>
+                <input id="main-image" class="form-control" type="file" accept="image/*"  onchange="loadFile(event)" th:field="*{mainImage}" style="display:none;">
+            </div>
+            <div class="text-center m-2">
+                <img width="250px" id="output" height="250px" class="img-fluid rounded-start" th:src="${product.mainImageAsBase64}">
+            </div>
+
+
+            <label for="category" class="form-label">Category</label>
+            <select id="category" class="form-control" type="text" th:field="*{category.id}">
+                <th:block th:each="category : ${sessionCategories}">
+                    <option th:value="${category.id}" th:text="${category.name}" th:selected="${product.category.id == category.id}"></option>
+                </th:block>
+            </select>
+
+            <div class="text-center m-2">
+                <button class="btn btn-primary" type="submit">Update</button>
+                <a class="btn btn-secondary" th:href="@{/buyer/home}">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script th:src="@{/js/edit-product.js}"></script>
+</body>
+</html>

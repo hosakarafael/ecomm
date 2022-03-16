@@ -16,16 +16,6 @@
         <div class="container-fluid">
 
             <th:block th:each="product : ${products}">
-<!--                <div class="card" style="width: 18rem;display: inline-block;">-->
-<!--                    <a th:href="@{'/product/productInfo/' + ${product.id}}">-->
-<!--                        <img width="250" height="250" class="card-img-top" th:src="${product.mainImageAsBase64}">-->
-<!--                    </a>-->
-<!--                    <div class="card-body">-->
-<!--                        <h5 class="card-title text-danger fw-bold text-start" th:text="'$' + ${product.formattedPrice}"></h5>-->
-<!--                        <span class="card-text text-start flex wrap text-overflow-lines" th:text="${product.name}"></span>-->
-<!--&lt;!&ndash;                        <a th:href="@{'/addCart/' + ${product.id}}" class="btn btn-primary">Add to Cart</a>&ndash;&gt;-->
-<!--                    </div>-->
-
                     <div class="card mb-3"  >
                         <div class="row g-0">
                             <div class="col-md-4">

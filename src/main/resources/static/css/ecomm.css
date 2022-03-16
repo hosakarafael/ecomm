@@ -9,7 +9,7 @@
       left: 1170px;
       right: 0;
       bottom: 0;
-      z-index: 2;
+      z-index: 999;
       opacity: 90%;
       font-weight: bold;
 }
