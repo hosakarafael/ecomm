@@ -67,10 +67,9 @@ public class Bootstrap {
                     faker.phoneNumber().cellPhone(),
                     faker.date().between(pastDate.getTime(),  new Date())
                             .toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                    firstName.toLowerCase()+"@ecomm.com",
-                    "1234");
+                    firstName.toLowerCase()+"@ecomm.com");
 
-            configureAccount(applicationUserService, buyer.getEmail(), buyer.getPassword(), true, Lists.newArrayList(UserRole.BUYER));
+            configureAccount(applicationUserService, buyer.getEmail(), "1234", true, Lists.newArrayList(UserRole.BUYER));
 
             buyerService.save(buyer);
         }

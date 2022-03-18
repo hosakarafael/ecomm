@@ -31,10 +31,15 @@
         <th:block th:each="product : ${loggedBuyer.shop.sortedProductsByName}">
           <tr>
             <th th:class="${product.enabled ? '' : 'opacity'}">
-              <img th:onclick="'zoomInImage(\'zoom-image' + ${product.id} + '\')'" id="small-image" th:class="${product.enabled ? 'product-image' : 'product-disabled-image'}" th:src="${product.mainImageAsBase64}">
-              <div onclick="zoomOutImage(this)" th:id="'zoom-image' + ${product.id}" class="product-image-overlay">
-                <img class="zoom-image" width="500" height="500" th:src="${product.mainImageAsBase64}">
-              </div>
+              <th:block th:if="${product.enabled}">
+                <img th:onclick="'zoomInImage(\'zoom-image' + ${product.id} + '\')'" id="small-image" th:class="${product.enabled ? 'product-image' : 'product-disabled-image'}" th:src="${product.mainImageAsBase64}">
+                <div onclick="zoomOutImage(this)" th:id="'zoom-image' + ${product.id}" class="product-image-overlay">
+                  <img class="zoom-image" width="500" height="500" th:src="${product.mainImageAsBase64}">
+                </div>
+              </th:block>
+              <th:block th:if="${!product.enabled}">
+                <img  th:class="${product.enabled ? 'product-image' : 'product-disabled-image'}" th:src="${product.mainImageAsBase64}">
+              </th:block>
             </th>
             <th th:class="'text-overflow-lines ' + ${product.enabled ? '' : 'opacity'}" th:text="${product.name}" ></th>
             <th th:class="${product.enabled ? '' : 'opacity'}" th:text="${product.formattedPrice}"></th>

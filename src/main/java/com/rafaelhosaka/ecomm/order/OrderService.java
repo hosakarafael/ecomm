@@ -55,4 +55,8 @@ public class OrderService {
 
         orderRepository.save(order);
     }
+
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
 }

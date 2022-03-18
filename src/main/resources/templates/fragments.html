@@ -84,22 +84,33 @@
             </li>
 
 <!-- BUYER functions -->
-            <li sec:authorize="hasRole('BUYER')">
-                <a  th:href="@{/buyer/home}">
-                    <i class="fas fa-house-user"></i>
-                    <span class="links_name">My Homepage</span>
-                </a>
-                <span class="tooltip">My Homepage</span>
-            </li>
+            <th:block sec:authorize="hasRole('BUYER')">
+                <li>
+                    <a  th:href="@{/buyer/home}">
+                        <i class="fas fa-house-user"></i>
+                        <span class="links_name">My Homepage</span>
+                    </a>
+                    <span class="tooltip">My Homepage</span>
+                </li>
+                <li>
+                    <a  th:href="@{/order/shoppingHistory}">
+                        <i class="fas fa-history"></i>
+                        <span class="links_name">Shopping History</span>
+                    </a>
+                    <span class="tooltip">Shopping History</span>
+                </li>
+            </th:block>
 
 <!-- ADMIN functions -->
-            <li sec:authorize="hasRole('ADMIN')">
-                <a  th:href="@{/admin/list}">
-                    <i class='fas fa-clipboard-list' ></i>
-                    <span class="links_name">List of Buyers</span>
-                </a>
-                <span class="tooltip">List of Buyers</span>
-            </li>
+            <th:block sec:authorize="hasRole('ADMIN')">
+                <li>
+                    <a  th:href="@{/admin/list}">
+                        <i class='fas fa-clipboard-list' ></i>
+                        <span class="links_name">List of Buyers</span>
+                    </a>
+                    <span class="tooltip">List of Buyers</span>
+                </li>
+            </th:block>
 
         </ul>
     </div>

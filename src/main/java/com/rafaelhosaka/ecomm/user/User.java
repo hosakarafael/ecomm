@@ -25,15 +25,13 @@ public abstract class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateBirth;
 
-    private String password;
-
     @Column(nullable = false, unique = true, length = 25)
     private String email;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String address, String phoneNumber, LocalDate dateBirth, String email , String password) {
+    public User(String firstName, String lastName, String address, String phoneNumber, LocalDate dateBirth, String email ) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,6 +39,5 @@ public abstract class User {
         this.phoneNumber = phoneNumber;
         this.dateBirth = dateBirth;
         this.email = email;
-        this.password = password;
     }
 }

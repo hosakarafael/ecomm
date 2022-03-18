@@ -6,11 +6,13 @@ import com.rafaelhosaka.ecomm.account.UserRole;
 import com.rafaelhosaka.ecomm.auth.ApplicationUser;
 import com.rafaelhosaka.ecomm.auth.ApplicationUserService;
 import com.rafaelhosaka.ecomm.exception.BuyerNotFoundException;
+import com.rafaelhosaka.ecomm.exception.PasswordNotCorrectException;
 import com.rafaelhosaka.ecomm.exception.UsernameDuplicatedException;
 import com.rafaelhosaka.ecomm.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +27,7 @@ public class BuyerController {
     private final ApplicationUserService applicationUserService;
 
     @Autowired
-    public BuyerController(BuyerService buyerService, ApplicationUserService applicationUserService) {
+    public BuyerController(BuyerService buyerService, ApplicationUserService applicationUserService, PasswordEncoder passwordEncoder) {
         this.buyerService = buyerService;
         this.applicationUserService = applicationUserService;
     }
@@ -49,11 +51,11 @@ public class BuyerController {
     }
 
     @PostMapping("/save")
-    public String createBuyer(Buyer buyer, RedirectAttributes redirectAttributes){
+    public String createBuyer(Buyer buyer,@ModelAttribute("password") String password, RedirectAttributes redirectAttributes){
         try {
             applicationUserService.createUser(new ApplicationUser(
                     new UserAccount(buyer.getEmail(),
-                            buyer.getPassword(),
+                            password,
                             true,
                             Lists.newArrayList(UserRole.BUYER)
                     )));
@@ -97,4 +99,24 @@ public class BuyerController {
         model.addAttribute("activeTab","buyer");
         return "/buyer/buyer-home-page";
     }
+
+    @Secured("ROLE_BUYER")
+    @GetMapping("/showChangePassword")
+    public String showChangePassword(Model model){
+        return "/buyer/change-password";
+    }
+
+    @Secured("ROLE_BUYER")
+    @PostMapping("/changePassword")
+    public String changePassword(@ModelAttribute("currentPassword")String currentPassword ,@ModelAttribute("newPassword")String newPassword, Model model){
+        try {
+            applicationUserService.updateUserPassword(((Buyer) model.getAttribute("loggedBuyer")).getEmail(), currentPassword, newPassword);
+            model.addAttribute("successAlert", "Password changed successfully");
+        }catch(PasswordNotCorrectException e){
+            model.addAttribute("errorAlert",e.getErrorMessage());
+        }
+
+        return showChangePassword(model);
+    }
+
 }

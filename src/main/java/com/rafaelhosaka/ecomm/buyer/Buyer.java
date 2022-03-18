@@ -21,8 +21,8 @@ public class Buyer extends User {
 
     }
 
-    public Buyer( String firstName, String lastName, String address, String phoneNumber, LocalDate dateBirth, String email, String password) {
-        super(firstName, lastName, address, phoneNumber, dateBirth, email, password);
+    public Buyer( String firstName, String lastName, String address, String phoneNumber, LocalDate dateBirth, String email) {
+        super(firstName, lastName, address, phoneNumber, dateBirth, email);
     }
 
 }

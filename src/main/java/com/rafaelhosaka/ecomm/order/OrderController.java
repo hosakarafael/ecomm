@@ -25,13 +25,13 @@ public class OrderController {
 
     @Secured("ROLE_BUYER")
     @GetMapping("/showCheckout")
-    public String checkout(Model model){
+    public String showCheckout(Model model){
         model.addAttribute("products",productService.findAllEnabled());
         return "/buyer/checkout";
     }
 
     @PostMapping("/checkout")
-    public String saveOrder(@ModelAttribute("paymentMethod")String paymentMethod, @ModelAttribute("radioAddress") String address,Model model, HttpSession session){
+    public String checkout(@ModelAttribute("paymentMethod")String paymentMethod, @ModelAttribute("radioAddress") String address,Model model, HttpSession session){
         Cart sessionCart = (Cart)session.getAttribute("sessionCart");
         orderService.save(sessionCart, paymentMethod, address);
         model.addAttribute("successAlert","Order placed!");
@@ -39,5 +39,12 @@ public class OrderController {
         sessionCart.resetCart();
 
         return "/index";
+    }
+
+    @Secured("ROLE_BUYER")
+    @GetMapping("/shoppingHistory")
+    public String showShoppingHistory(Model model){
+        model.addAttribute("orders",orderService.findAll());
+        return "/buyer/shopping-history";
     }
 }

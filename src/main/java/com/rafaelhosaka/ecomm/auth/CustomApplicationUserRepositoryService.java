@@ -2,6 +2,7 @@ package com.rafaelhosaka.ecomm.auth;
 
 import com.rafaelhosaka.ecomm.account.UserAccount;
 import com.rafaelhosaka.ecomm.account.UserAccountRepository;
+import com.rafaelhosaka.ecomm.exception.PasswordNotCorrectException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,5 +37,14 @@ public class CustomApplicationUserRepositoryService implements ApplicationUserRe
             applicationUser.getUserAccount().setPassword(passwordEncoder.encode(applicationUser.getPassword()));
             userAccountRepository.save((UserAccount) applicationUser.getUserAccount());
         }
+    }
+
+    @Override
+    public void updateApplicationUserPassword(UserAccount userAccount, String currentPassword, String newPassword) throws PasswordNotCorrectException {
+        if(!passwordEncoder.matches(currentPassword,userAccount.getPassword())){
+            throw new PasswordNotCorrectException("208","Password not correct, please try again");
+        }
+        userAccount.setPassword(passwordEncoder.encode(newPassword));
+        userAccountRepository.save(userAccount);
     }
 }

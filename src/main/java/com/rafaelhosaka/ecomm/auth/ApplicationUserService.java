@@ -1,5 +1,7 @@
 package com.rafaelhosaka.ecomm.auth;
 
+import com.rafaelhosaka.ecomm.account.UserAccount;
+import com.rafaelhosaka.ecomm.exception.PasswordNotCorrectException;
 import com.rafaelhosaka.ecomm.exception.UsernameDuplicatedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,5 +53,12 @@ public class ApplicationUserService implements UserDetailsManager {
     @Override
     public boolean userExists(String s) {
         return false;
+    }
+
+    public void updateUserPassword(String username,String currentPassword, String newPassword) throws PasswordNotCorrectException {
+        UserAccount userAccount = applicationUserRepository.getApplicationUserByUsername(username).getUserAccount();
+        if(userAccount != null){
+            applicationUserRepository.updateApplicationUserPassword(userAccount, currentPassword, newPassword);
+        }
     }
 }
